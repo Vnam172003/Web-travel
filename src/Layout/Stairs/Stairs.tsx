@@ -17,7 +17,7 @@ const Stairs = () => {
           initial='initial'
           animate='animate'
           exit='exit'
-          transition={{ duration: 0.5, delay: index * 0.1 }}
+          transition={{ duration: 0.3, delay: index * 0.05 }}
         />
       ))}
     </div>

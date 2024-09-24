@@ -1,42 +1,87 @@
-import { GlobalOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons'
-import type { MenuProps } from 'antd'
-import { Dropdown, Space } from 'antd'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useEffect, useState } from 'react'
+import { Popover } from 'antd'
+import { auth, db } from '../../../firebase/FirebaseConfig'
 import { Link } from 'react-router-dom'
-const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: <Link to='/auth'>Đăng Nhập</Link>
-  },
-  {
-    key: '2',
-    label: <Link to='/auth'>Đăng ký</Link>
-  },
-  {
-    key: '3',
-    label: (
-      <a target='_blank' rel='noopener noreferrer' href='https://www.luohanacademy.com'>
-        Đăng xuất
-      </a>
-    )
-  }
-]
+
+import { MenuOutlined, UserOutlined } from '@ant-design/icons'
+import Logout from '../Logout'
+import { TypeInfor } from '../../Types/Users.type'
+import { doc, getDoc } from 'firebase/firestore'
+
 const InforHeader = () => {
+  const [user, setUser] = useState<TypeInfor | null>(null)
+
+  useEffect(() => {
+    const UserInfor = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const docRef = doc(db, 'Users', user.uid)
+          const docSnap = await getDoc(docRef)
+
+          if (docSnap.exists()) {
+            // Lấy dữ liệu người dùng từ Firestore
+            setUser(docSnap.data() as TypeInfor)
+          } else {
+            console.error('No such document!')
+            setUser(null)
+          }
+        } catch (error) {
+          console.error('Error fetching user data from Firestore:', error)
+          setUser(null)
+        }
+      } else {
+        setUser(null)
+      }
+    })
+
+    return () => UserInfor()
+  }, [])
+  // popover
+  const content = (
+    <div className='w-[200px]  bg-white    '>
+      {!user ? (
+        <>
+          <h3 className='text-lg font-semibold mb-2'>Chào mừng bạn!</h3>
+          <Link to='/login' className='block text-black hover:bg-primary hover:text-white mb-2 p-2 rounded'>
+            Đăng nhập
+          </Link>
+          <Link to='/register' className='block text-black hover:bg-primary hover:text-white p-2 rounded'>
+            Đăng ký
+          </Link>
+        </>
+      ) : (
+        <div className='w-[200px]'>
+          <h3 className='text-lg font-semibold mb-2 '>Xin chào, {user.displayName}!</h3>
+
+          <Link to='/profile' className='block  text-black hover:bg-primary hover:text-white p-2 rounded'>
+            Thông tin cá nhân
+          </Link>
+          <Logout />
+        </div>
+      )}
+    </div>
+  )
   return (
-    <div className='flex items-center gap-2 cursor-pointer'>
-      <div className='text-[16px] font-medium text-black hover:bg-grey1 rounded-full p-3 '>
+    <div className='flex items-center gap-4 cursor-pointer'>
+      <div className='text-[16px] font-medium text-black hover:bg-grey1 rounded-full p-3 transition duration-300 ease-in-out'>
         Cho thuê chỗ ở qua Airbnb
       </div>
-      <GlobalOutlined className='text-[18px] text-grey hover:bg-grey1  rounded-full p-3' />
-      <Space direction='vertical'>
-        <Space wrap>
-          <Dropdown menu={{ items }} placement='bottomLeft' arrow>
-            <div className='flex items-center gap-2  bg-white border border-grey1 rounded-full px-4 py-2 hover:shadow-xl'>
-              <MenuOutlined className='text-[16px] bg-primary text-white rounded-full p-1' />
-              <UserOutlined className='text-[18px] text-grey ' />
+      <Popover content={content} trigger='click' className='hover:shadow-xl '>
+        <div className='flex items-center p-2 border border-gray-300 rounded-full hover:bg-gray-100 transition duration-300 ease-in-out '>
+          {user ? (
+            <>
+              {user.photoURL && <img src={user.photoURL} className='w-[30px] rounded-full'></img>}
+              <span className='text-black px-1'>{user.displayName}</span>
+            </>
+          ) : (
+            <div className='flex items-center w-16 justify-center py-1'>
+              <MenuOutlined className='text-black text-[16px] ' />
+              <UserOutlined className='text-black ml-2 text-[16px]' />
             </div>
-          </Dropdown>
-        </Space>
-      </Space>
+          )}
+        </div>
+      </Popover>
     </div>
   )
 }

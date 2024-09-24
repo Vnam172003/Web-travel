@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Video from '../../assets/video.mp4'
 import Image from '../../assets/ImageHome.png'
 import { Link } from 'react-router-dom'
+import Section from './Section'
 const Home = () => {
-  const [activeTab, setActiveTab] = useState('flights')
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -62,25 +62,7 @@ const Home = () => {
       </section>
 
       {/* Search Section */}
-      <section className='py-16 bg-gray-100'>
-        <div className='container mx-auto px-4'>
-          <h2 className='text-3xl font-bold mb-8 text-center'>Tìm Kiếm và Đặt Chỗ</h2>
-          <div className='bg-white rounded-lg shadow-lg p-6'>
-            <div className='flex mb-6'>
-              {['flights', 'hotels', 'tours'].map((tab) => (
-                <button
-                  key={tab}
-                  className={`flex-1 py-2 ${activeTab === tab ? 'border-b-2 border-blue-500' : ''}`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </button>
-              ))}
-            </div>
-            {/* Add your search form here based on activeTab */}
-          </div>
-        </div>
-      </section>
+      <Section />
 
       {/* Destinations Section */}
       <section className='py-16'>
