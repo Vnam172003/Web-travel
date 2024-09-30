@@ -31,12 +31,13 @@ const Register = () => {
         await setDoc(doc(db, 'Users', user.uid), {
           ...userInfo,
           displayName,
+          emailVerified: false,
           updatedAt: serverTimestamp()
         })
 
         await sendEmailVerification(user)
 
-        window.location.href = '/login'
+        window.location.href = '/verify'
 
         notification.success({
           message: 'Đăng ký thành công',
@@ -66,11 +67,7 @@ const Register = () => {
   }
   const updateUserVerificationStatus = async (user: User) => {
     const userRef = doc(db, 'Users', user.uid)
-    await setDoc(
-      userRef,
-      { emailVerified: true, updatedAt: serverTimestamp() }, // Cập nhật emailVerified
-      { merge: true }
-    )
+    await setDoc(userRef, { emailVerified: true, updatedAt: serverTimestamp() }, { merge: true })
   }
 
   onAuthStateChanged(auth, async (user) => {

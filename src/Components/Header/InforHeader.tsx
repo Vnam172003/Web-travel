@@ -7,25 +7,27 @@ import { Link } from 'react-router-dom'
 import { MenuOutlined, UserOutlined } from '@ant-design/icons'
 import Logout from '../Logout'
 import { TypeInfor } from '../../Types/Users.type'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 const InforHeader = () => {
   const [user, setUser] = useState<TypeInfor | null>(null)
 
   useEffect(() => {
-    const UserInfor = onAuthStateChanged(auth, async (user) => {
-      if (user) {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
         try {
-          const docRef = doc(db, 'Users', user.uid)
-          const docSnap = await getDoc(docRef)
+          const docRef = doc(db, 'Users', currentUser.uid)
 
-          if (docSnap.exists()) {
-            // Lấy dữ liệu người dùng từ Firestore
-            setUser(docSnap.data() as TypeInfor)
-          } else {
-            console.error('No such document!')
-            setUser(null)
-          }
+          const unsubscribeSnapshot = onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+              setUser(docSnap.data() as TypeInfor)
+            } else {
+              console.error('No such document!')
+              setUser(null)
+            }
+          })
+
+          return () => unsubscribeSnapshot()
         } catch (error) {
           console.error('Error fetching user data from Firestore:', error)
           setUser(null)
@@ -35,7 +37,7 @@ const InforHeader = () => {
       }
     })
 
-    return () => UserInfor()
+    return () => unsubscribeAuth()
   }, [])
   // popover
   const content = (
@@ -71,7 +73,7 @@ const InforHeader = () => {
         <div className='flex items-center p-2 border border-gray-300 rounded-full hover:bg-gray-100 transition duration-300 ease-in-out '>
           {user ? (
             <>
-              {user.photoURL && <img src={user.photoURL} className='w-[30px] rounded-full'></img>}
+              {user.photoURL && <img src={user.photoURL} className='w-[30px] h-[30px] rounded-full'></img>}
               <span className='text-black px-1'>{user.displayName}</span>
             </>
           ) : (

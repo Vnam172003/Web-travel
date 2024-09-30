@@ -4,6 +4,7 @@ import Video from '../../assets/video.mp4'
 import Image from '../../assets/ImageHome.png'
 import { Link } from 'react-router-dom'
 import Section from './Section'
+import FormSeach from './FormSeach'
 const Home = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -39,24 +40,42 @@ const Home = () => {
   return (
     <div className='bg-white text-gray-800'>
       {/* Hero Section */}
-      <section className='relative h-screen'>
-        <video ref={videoRef} className='absolute inset-0 w-full h-full object-cover' autoPlay muted loop playsInline>
+      <section className='relative h-screen overflow-hidden'>
+        <video
+          ref={videoRef}
+          className='p-2 rounded-[30px] absolute inset-0 w-full h-full object-cover'
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
           <source src={Video} type='video/mp4' />
         </video>
-        <div className='absolute inset-0 bg-black bg-opacity-50'></div>
+
+        {/* Gradient Overlay */}
+        <div className='absolute inset-0 bg-gradient-to-t m-2 rounded-[15px] from-black to-transparent opacity-50'></div>
+
         <div className='relative z-10 h-full flex items-center justify-center text-white'>
-          <div className='text-center'>
-            <h1 className='text-5xl md:text-6xl font-bold mb-4'>Khám Phá Việt Nam</h1>
-            <p className='text-xl md:text-2xl mb-8'>Trải nghiệm vẻ đẹp đa dạng và văn hóa phong phú</p>
-            <Link to='/products'>
-              <motion.button
-                className='bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-primary/90 transition'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Bắt đầu hành trình
-              </motion.button>
-            </Link>
+          <div className='grid grid-cols-2'>
+            <div className='col-span-1 mx-16'>
+              <h1 className='text-5xl md:text-6xl font-bold mb-4'>Khám Phá Việt Nam</h1>
+              <p className='text-xl md:text-4xl mb-8'>Trải nghiệm vẻ đẹp đa dạng và văn hóa phong phú</p>
+              <Link to='/products'>
+                <motion.button
+                  className='bg-primary text-white px-8 py-3 mt-5 rounded-full font-bold hover:bg-primary/90 transition'
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Đặt Phòng ngay
+                </motion.button>
+              </Link>
+              <p className='text-base md:text-lg mt-20'>
+                Dù là một chuyến đi nghỉ dưỡng ngắn ngày hay một kỳ nghỉ dài, chúng tôi luôn có sẵn những gói dịch vụ
+                tốt nhất để đáp ứng mọi nhu cầu của bạn. Đặt chỗ ngay để không bỏ lỡ những trải nghiệm tuyệt vời tại
+                Việt Nam.
+              </p>
+            </div>
+            <FormSeach />
           </div>
         </div>
       </section>

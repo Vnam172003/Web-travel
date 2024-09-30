@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
-import { auth, db } from '../../../firebase/FirebaseConfig'
+import { app, auth, db } from '../../../firebase/FirebaseConfig'
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 
 import { TypeInfor } from '../../Types/Users.type'
 import { Select } from 'antd'
+import { reload } from 'firebase/auth'
+import { CameraFilled } from '@ant-design/icons'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState<TypeInfor | null>(null)
@@ -11,15 +14,24 @@ const Profile = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [updatedInfo, setUpdatedInfo] = useState<any>({})
 
+  const [imageUrl, setImageUrl] = useState<string>('')
   const fetchUserDetail = async () => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
+        await reload(user)
+
+        if (user.emailVerified) {
+          const userRef = doc(db, 'Users', user.uid)
+          await setDoc(userRef, { emailVerified: true }, { merge: true })
+        }
         try {
           const docRef = doc(db, 'Users', user.uid)
           const docSnap = await getDoc(docRef)
           if (docSnap.exists()) {
+            const data = docSnap.data()
             setUserDetails(docSnap.data() as TypeInfor)
             setUpdatedInfo(docSnap.data())
+            setImageUrl(data.photoURL || null)
           }
         } catch (error) {
           console.error('Error fetching user data:', error)
@@ -27,7 +39,7 @@ const Profile = () => {
       }
     })
   }
-
+  console.log(userDetails)
   const handleEdit = () => {
     setIsEditing(true)
   }
@@ -56,9 +68,31 @@ const Profile = () => {
         )
         setUserDetails(updatedInfo)
         setIsEditing(false)
+        window.location.reload()
       }
     } catch (error) {
       console.error('Error updating user data:', error)
+    }
+  }
+
+  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0]
+    if (file) {
+      try {
+        const storage = getStorage(app)
+        const storageRef = ref(storage, 'images/' + file.name)
+        await uploadBytes(storageRef, file)
+        const downloadUrl = await getDownloadURL(storageRef)
+        console.log(downloadUrl)
+        setImageUrl(downloadUrl)
+        const user = auth.currentUser
+        if (user) {
+          const userRef = doc(db, 'Users', user.uid)
+          await setDoc(userRef, { photoURL: downloadUrl }, { merge: true })
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -74,16 +108,22 @@ const Profile = () => {
             <div className='flex items-center justify-between'>
               <h1 className='text-3xl font-bold'>Thông tin cá nhân</h1>
               <div className='relative w-16 h-16'>
-                {userDetails.photoURL ? (
-                  <img className='rounded-full w-full h-full' src={userDetails.photoURL} alt='Profile' />
+                {imageUrl ? (
+                  <img className='rounded-full w-full h-full object-cover ' src={imageUrl} alt='Profile' />
                 ) : (
-                  <div className='rounded-full w-full h-full bg-gray-200 flex items-center justify-center'>
+                  <div className='rounded-full w-full h-full bg-gr  ay-200 flex items-center justify-center'>
                     <span className='text-gray-500'>No Image</span>
                   </div>
                 )}
-                <span className='absolute bottom-0 right-0 bg-blue-500 text-white text-sm p-1 rounded-full'>
-                  <i className='fas fa-camera'></i>
-                </span>
+                <input
+                  type='file'
+                  className='absolute inset-0 rounded-full w-full h-full opacity-0 cursor-pointer'
+                  onChange={handleFileChange}
+                />
+
+                <div className='absolute bottom-0 left-0 w-full   bg-opacity-70 flex items-center justify-center rounded-b-full'>
+                  <CameraFilled className='text-neutral-500' />
+                </div>
               </div>
             </div>
             <p className='text-gray-500 mt-2'>
@@ -108,15 +148,6 @@ const Profile = () => {
                     <p className='text-gray-500 mt-1'>{userDetails.displayName}</p>
                   )}
                 </div>
-                {isEditing ? (
-                  <button onClick={handleSave} className='text-green-600 font-medium'>
-                    Lưu
-                  </button>
-                ) : (
-                  <button onClick={handleEdit} className='text-blue-600 font-medium'>
-                    Chỉnh sửa
-                  </button>
-                )}
               </div>
 
               {/* Email */}
@@ -126,19 +157,10 @@ const Profile = () => {
                   <p className='text-gray-500 mt-1'>
                     {userDetails.email}
                     <span className='bg-green-700 text-white p-1 ml-1 font-medium '>
-                      {userDetails.emailVerified ? 'Đã Xác thực' : 'Chưa xác thực'}
+                      {userDetails.emailVerified ? 'Đã xác thực' : 'Chưa xác thực'}
                     </span>
                   </p>
                 </div>
-                {isEditing ? (
-                  <button onClick={handleSave} className='text-green-600 font-medium'>
-                    Lưu
-                  </button>
-                ) : (
-                  <button onClick={handleEdit} className='text-blue-600 font-medium'>
-                    Chỉnh sửa
-                  </button>
-                )}
               </div>
 
               {/* Phone Number */}
@@ -157,15 +179,6 @@ const Profile = () => {
                     <p className='text-gray-500 mt-1'>{userDetails.phoneNumber}</p>
                   )}
                 </div>
-                {isEditing ? (
-                  <button onClick={handleSave} className='text-green-600 font-medium'>
-                    Lưu
-                  </button>
-                ) : (
-                  <button onClick={handleEdit} className='text-blue-600 font-medium'>
-                    Chỉnh sửa
-                  </button>
-                )}
               </div>
 
               {/* Birth Date */}
@@ -184,15 +197,6 @@ const Profile = () => {
                     <p className='text-gray-500 mt-1'>{userDetails.birthDate || 'Nhập ngày sinh của bạn'}</p>
                   )}
                 </div>
-                {isEditing ? (
-                  <button onClick={handleSave} className='text-green-600 font-medium'>
-                    Lưu
-                  </button>
-                ) : (
-                  <button onClick={handleEdit} className='text-blue-600 font-medium'>
-                    Chỉnh sửa
-                  </button>
-                )}
               </div>
 
               {/* Gender */}
@@ -203,7 +207,7 @@ const Profile = () => {
                     <Select
                       id='gender-select'
                       value={updatedInfo.gender || 'Chọn giới tính'}
-                      onChange={handleGenderChange} // Sử dụng hàm handleGenderChange
+                      onChange={handleGenderChange}
                       className='w-[200px]'
                     >
                       <Select.Option value='Nam'>Nam</Select.Option>
@@ -214,16 +218,17 @@ const Profile = () => {
                     <p className='text-gray-500 mt-1'>{userDetails.gender || 'Chọn giới tính'}</p>
                   )}
                 </div>
-                {isEditing ? (
-                  <button onClick={handleSave} className='text-green-600 font-medium'>
-                    Lưu
-                  </button>
-                ) : (
-                  <button onClick={handleEdit} className='text-blue-600 font-medium'>
-                    Chỉnh sửa
-                  </button>
-                )}
               </div>
+            </div>
+
+            {/* Single Button at the Bottom */}
+            <div className='flex justify-end mt-4'>
+              <button
+                onClick={isEditing ? handleSave : handleEdit}
+                className={`text-white font-medium p-2 rounded ${isEditing ? 'bg-green-600' : 'bg-primary'}`}
+              >
+                {isEditing ? 'Lưu' : 'Chỉnh sửa'}
+              </button>
             </div>
           </div>
         ) : (

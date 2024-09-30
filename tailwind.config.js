@@ -7,9 +7,14 @@ module.exports = {
         black: '#000',
         white: '#fff',
         grey: '#717171',
-        primary: '#FF385C',
+        primary: '#000',
         Lightgrey: '#EBEBEB',
         grey1: '#EBEBEB'
+      }
+    },
+    variants: {
+      extend: {
+        placeholderColor: ['focus'] // Bật placeholderColor cho trạng thái focus
       }
     },
     plugins: []

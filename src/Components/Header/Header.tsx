@@ -1,23 +1,32 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import Nav from '../Nav'
 import InforHeader from './InforHeader'
 import Logo from './Logo'
+import SearchHeader from '../Search'
 
 const Header = () => {
+  const location = useLocation()
+  const { pathname } = location
+  const hiddenPaths = ['/login', '/register', '/verify']
+  const isHidden = hiddenPaths.includes(pathname)
+
   return (
-    <header className='py-6 relative h-[150px] xl:py-6 px-5 xl:px-10 border-b-[1px] border-gray-200'>
-      <div className='container mx-auto flex justify-between items-center'>
+    <header className='py-1 relative  xl:pt-2 px-5 xl:px-10  border-gray-200'>
+      <div className='container mx-auto flex justify-between items-center h-[50px]'>
         {/* logo */}
         <Link to='/'>
           <Logo />
         </Link>
-        <>chào mừng đến arib</>
-        <InforHeader />
+        {isHidden && <></>}
+        {!isHidden && (
+          <>
+            <Nav />
+            <InforHeader />
+          </>
+        )}
       </div>
-      <div className=' w-[70%] mx-auto top-28 bottom-0 left-0 right-0  absolute z-30 t'>
-        <Nav />
-      </div>
+      <div>{!isHidden && <SearchHeader />}</div>
     </header>
   )
 }

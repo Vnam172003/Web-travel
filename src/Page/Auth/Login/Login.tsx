@@ -23,7 +23,6 @@ const Login = () => {
       if (data) {
         window.location.href = '/'
       }
-      console.log(data)
       notification.success({
         message: 'Thành công',
         description: 'Bạn đã đăng nhập thành công'
