@@ -1,10 +1,10 @@
+
 import './index.pcss'
+import RouterElement from './router/RouterElement'
 function App() {
-  return (
-    <div className="test-pcss text-[16px]">
-      <span className="test-pcss-item text-[16px]">hello</span>
-    </div>
-  )
+  const routerElements = RouterElement()
+  return <div>{routerElements}</div>
+
 }
 
 export default App
