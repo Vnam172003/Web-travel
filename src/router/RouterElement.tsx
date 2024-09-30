@@ -6,7 +6,7 @@ import Auth from '../Page/Auth'
 import ProductList from '../Page/Product/ProductList'
 import Login from '../Page/Auth/Login'
 import Register from '../Page/Auth/register'
-import Profile from '../Page/Proflie'
+import Profile from '../Page/Profile'
 import VerifyEmail from '../Page/Auth/verifyEmail/VerifyEmail'
 
 const RouterElement = () => {
