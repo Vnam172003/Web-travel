@@ -1,11 +1,18 @@
-import { AutoComplete, DatePicker, Form, Input, Select } from 'antd'
+import { DatePicker, Form, Input, Select } from 'antd'
 import { Option } from 'antd/es/mentions'
 import { motion } from 'framer-motion'
-const options = [{ value: 'Hội an' }, { value: 'Đà Nẵng' }, { value: 'Huế' }]
+import useProvince from '../../hooks/province/useProvince'
 const FormSeach = () => {
+  const { data, isLoading } = useProvince()
+  const provinces = data?.data
+  const cityOptions = provinces?.map((province) => {
+    return {
+      label: province.name,
+      value: province.name
+    }
+  })
   return (
     <div className='bg-white mx-4 md:mx-[20%] p-6 md:p-8 rounded-lg shadow-lg'>
-      {/* Header */}
       <div className='text-black text-lg flex items-center gap-2 font-bold pb-4 border-b border-gray-200'>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-6 h-6'>
           <path d='M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z' />
@@ -13,24 +20,14 @@ const FormSeach = () => {
         </svg>
         <h1 className='uppercase text-xl md:text-2xl'>Tìm kiếm chỗ ở</h1>
       </div>
-
-      {/* Form */}
       <Form className='mt-6'>
-        {/* Thành phố hoặc tên khách sạn */}
         <div className='mb-4'>
           <span className='text-gray-700 mb-1 block capitalize'>Thành phố hoặc tên khách sạn</span>
           <Form.Item
             name='location'
             rules={[{ required: true, message: 'Vui lòng nhập thành phố hoặc tên khách sạn!' }]}
           >
-            <AutoComplete
-              className=''
-              options={options}
-              placeholder='Bạn muốn đến đâu'
-              filterOption={(inputValue, option) =>
-                option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-              }
-            />
+            <Select placeholder='Chọn thành phố' loading={isLoading} options={cityOptions} />
           </Form.Item>
         </div>
 
@@ -43,40 +40,23 @@ const FormSeach = () => {
             </Form.Item>
           </div>
           <div>
-            <span className='text-gray-700 mb-1 block'>Ngày ở</span>
-            <Form.Item name='stayDuration' rules={[{ required: true, message: 'Vui lòng nhập số ngày ở!' }]}>
-              <Input type='number' min={1} placeholder='Số ngày ở' className='w-full' />
+            <span className='text-gray-700 mb-1 block'>Ngày trả phòng</span>
+            <Form.Item name='checkOut' rules={[{ required: true, message: 'Vui lòng chọn ngày check-out!' }]}>
+              <DatePicker className='w-full' format='DD/MM/YYYY' />
             </Form.Item>
           </div>
         </div>
 
-        {/* Select (ví dụ: Số lượng khách) */}
         <div className='mb-4'>
           <span className='text-gray-700 mb-1 block'>Số lượng khách và phòng</span>
-          <Form.Item
-            name='guestsAndRooms'
-            rules={[{ required: true, message: 'Vui lòng chọn số lượng khách và phòng!' }]}
-          >
+          <Form.Item name='capacity' rules={[{ required: true, message: 'Vui lòng chọn số lượng khách!' }]}>
             <div className='flex gap-4'>
-              {/* Chọn số lượng khách */}
-              <Select className='w-full' placeholder='Số lượng khách'>
-                <Option value='1'>1 khách</Option>
-                <Option value='2'>2 khách</Option>
-                <Option value='3'>3 khách</Option>
-                <Option value='4'>4 khách</Option>
-                <Option value='5'>5 khách</Option>
-                {/* Thêm tùy chọn nếu cần */}
-              </Select>
-
-              {/* Chọn số lượng phòng */}
-              <Select className='w-full' placeholder='Số lượng phòng'>
-                <Option value='1'>1 phòng</Option>
-                <Option value='2'>2 phòng</Option>
-                <Option value='3'>3 phòng</Option>
-                <Option value='4'>4 phòng</Option>
-                <Option value='5'>5 phòng</Option>
-                {/* Thêm tùy chọn nếu cần */}
-              </Select>
+              <Input placeholder='số lượng khách' type='number' />
+            </div>
+          </Form.Item>
+          <Form.Item name='room' rules={[{ required: true, message: 'Vui lòng chọn số lượng khách!' }]}>
+            <div className='flex gap-4'>
+              <Input  placeholder='số lượng phòng'  type='number' />
             </div>
           </Form.Item>
         </div>

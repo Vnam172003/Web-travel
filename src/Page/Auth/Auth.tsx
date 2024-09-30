@@ -1,7 +1,7 @@
 import { GoogleOutlined } from '@ant-design/icons'
 import backgroundImage from '../../assets/imageAuthen.jpg'
 import { motion } from 'framer-motion'
-import { handleGoogle } from '../../hooks/Auth/HandleGoogle'
+import { handleGoogle } from '../../service/Auth/HandleGoogle'
 import { Outlet } from 'react-router-dom'
 
 const Auth = () => {
