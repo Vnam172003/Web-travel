@@ -1,5 +1,5 @@
 import { DatePicker, Form, Input, Select } from 'antd'
-import { Option } from 'antd/es/mentions'
+
 import { motion } from 'framer-motion'
 import useProvince from '../../hooks/province/useProvince'
 const FormSeach = () => {
@@ -12,7 +12,7 @@ const FormSeach = () => {
     }
   })
   return (
-    <div className='bg-white mx-4 md:mx-[20%] p-6 md:p-8 rounded-lg shadow-lg'>
+    <div className='bg-white mx-4 md:mx-[20%] xl:mx-[25%] p-6 md:p-8 rounded-lg shadow-lg'>
       <div className='text-black text-lg flex items-center gap-2 font-bold pb-4 border-b border-gray-200'>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-6 h-6'>
           <path d='M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z' />
@@ -47,17 +47,13 @@ const FormSeach = () => {
           </div>
         </div>
 
-        <div className='mb-4'>
-          <span className='text-gray-700 mb-1 block'>Số lượng khách và phòng</span>
+        <span className='text-gray-700 mb-1 block '>Số lượng khách và phòng</span>
+        <div className='flex gap-4 w-full'>
           <Form.Item name='capacity' rules={[{ required: true, message: 'Vui lòng chọn số lượng khách!' }]}>
-            <div className='flex gap-4'>
-              <Input placeholder='số lượng khách' type='number' />
-            </div>
+            <Input placeholder='số lượng khách' type='number' min={0} className='w-full' />
           </Form.Item>
           <Form.Item name='room' rules={[{ required: true, message: 'Vui lòng chọn số lượng khách!' }]}>
-            <div className='flex gap-4'>
-              <Input  placeholder='số lượng phòng'  type='number' />
-            </div>
+            <Input placeholder='số lượng phòng' type='number' min={0} className='w-full' />
           </Form.Item>
         </div>
 

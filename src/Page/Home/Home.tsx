@@ -60,7 +60,10 @@ const Home = () => {
             <div className='col-span-1 mx-16'>
               <h1 className='text-5xl md:text-6xl font-bold mb-4'>Khám Phá Việt Nam</h1>
               <p className='text-xl md:text-4xl mb-8'>Trải nghiệm vẻ đẹp đa dạng và văn hóa phong phú</p>
-              <Link to='/products'>
+              <Link
+                to='/roomlist
+              '
+              >
                 <motion.button
                   className='bg-primary text-white px-8 py-3 mt-5 rounded-full font-bold hover:bg-primary/90 transition'
                   whileHover={{ scale: 1.05 }}

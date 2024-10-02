@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { app, auth, db } from '../../../firebase/FirebaseConfig'
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
-
 import { TypeInfor } from '../../Types/Users.type'
 import { Select } from 'antd'
 import { reload } from 'firebase/auth'
 import { CameraFilled } from '@ant-design/icons'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import { Image } from 'antd'
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState<TypeInfor | null>(null)
@@ -103,16 +103,20 @@ const Profile = () => {
   return (
     <div>
       <div className='bg-gray-100 min-h-screen flex justify-center my-10'>
-        <h1 className='test-pcss-item'>hêhhees</h1>
         {userDetails ? (
           <div className='max-w-4xl w-full bg-white p-6 rounded-lg shadow-lg mt-10'>
             <div className='flex items-center justify-between'>
               <h1 className='text-3xl font-bold'>Thông tin cá nhân</h1>
               <div className='relative w-16 h-16'>
                 {imageUrl ? (
-                  <img className='rounded-full w-full h-full object-cover ' src={imageUrl} alt='Profile' />
+                  <Image
+                    className='rounded-full w-full h-full object-cover'
+                    src={imageUrl}
+                    alt='Profile'
+                    preview={false} // Disable preview if not needed
+                  />
                 ) : (
-                  <div className='rounded-full w-full h-full bg-gr  ay-200 flex items-center justify-center'>
+                  <div className='rounded-full w-full h-full bg-gray-200 flex items-center justify-center'>
                     <span className='text-gray-500'>No Image</span>
                   </div>
                 )}
