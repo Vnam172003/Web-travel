@@ -4,6 +4,7 @@ import { provinceURL } from "../../api/constant";
 import { ApiResponse } from "../../api/type";
 export interface Province {
     name: string;
+    codename: string;
 }
 const useProvince = ()=>{
     return useQuery<ApiResponse<Province[]>>({

@@ -1,7 +1,8 @@
 import { Card, Col, Row, Typography, Pagination, Select } from 'antd'
 import { StarFilled, HeartOutlined, HeartFilled } from '@ant-design/icons'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useSearchRoom } from '../../../hooks/room/useSearchRoom'
 
 const { Title, Text } = Typography
 
@@ -50,7 +51,12 @@ const RoomList = () => {
   const [favoriteRooms, setFavoriteRooms] = useState<number[]>([])
   const pageSize = 4 // Số lượng phòng hiển thị trên mỗi trang
   const totalRooms = roomData.length
+  const location = useLocation();
 
+  const { data, isLoading } = useSearchRoom(location?.state);
+  console.log(data);
+  // set to list
+  //moi lan  user filter
   // Tính toán danh sách phòng hiển thị theo trang hiện tại
   const indexOfLastRoom = currentPage * pageSize
   const indexOfFirstRoom = indexOfLastRoom - pageSize

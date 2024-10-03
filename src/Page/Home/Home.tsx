@@ -4,7 +4,7 @@ import Video from '../../assets/video.mp4'
 import Image from '../../assets/ImageHome.png'
 import { Link } from 'react-router-dom'
 import Section from './Section'
-import FormSeach from './FormSeach'
+import FormSearch from './FormSeach'
 const Home = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -78,7 +78,7 @@ const Home = () => {
                 Việt Nam.
               </p>
             </div>
-            <FormSeach />
+            <FormSearch />
           </div>
         </div>
       </section>

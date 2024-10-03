@@ -2,15 +2,39 @@ import { DatePicker, Form, Input, Select } from 'antd'
 
 import { motion } from 'framer-motion'
 import useProvince from '../../hooks/province/useProvince'
-const FormSeach = () => {
+import { SearchRoomRequest } from '../../hooks/room/types'
+import moment from 'moment'
+import { useSearchRoom } from '../../hooks/room/useSearchRoom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+const initialState = {
+  checkInDate: '',
+  checkOutDate: '',
+  city: '',
+  room: '',
+  capacity: ''
+}
+const FormSearch = () => {
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
+ 
   const { data, isLoading } = useProvince()
   const provinces = data?.data
   const cityOptions = provinces?.map((province) => {
     return {
       label: province.name,
-      value: province.name
+      value: province.codename
     }
   })
+  const handleSearchRoom = (formValues: SearchRoomRequest) => {
+    const params = {
+      ...formValues,
+      checkInDate: moment(new Date(formValues.checkInDate)).format('YYYY-MM-DD'),
+      checkOutDate: moment(new Date(formValues.checkOutDate)).format('YYYY-MM-DD')
+    }
+    form.resetFields()
+    navigate('/roomlist', {state: params})
+  }
   return (
     <div className='bg-white mx-4 md:mx-[20%] xl:mx-[25%] p-6 md:p-8 rounded-lg shadow-lg'>
       <div className='text-black text-lg flex items-center gap-2 font-bold pb-4 border-b border-gray-200'>
@@ -20,28 +44,23 @@ const FormSeach = () => {
         </svg>
         <h1 className='uppercase text-xl md:text-2xl'>Tìm kiếm chỗ ở</h1>
       </div>
-      <Form className='mt-6'>
+      <Form form={form} onFinish={handleSearchRoom} className='mt-6'>
         <div className='mb-4'>
           <span className='text-gray-700 mb-1 block capitalize'>Thành phố hoặc tên khách sạn</span>
-          <Form.Item
-            name='location'
-            rules={[{ required: true, message: 'Vui lòng nhập thành phố hoặc tên khách sạn!' }]}
-          >
+          <Form.Item name='city' rules={[{ required: true, message: 'Vui lòng nhập thành phố hoặc tên khách sạn!' }]}>
             <Select placeholder='Chọn thành phố' loading={isLoading} options={cityOptions} />
           </Form.Item>
         </div>
-
-        {/* Check-in và Ngày ở */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
           <div>
             <span className='text-gray-700 mb-1 block'>Ngày đặt Phòng</span>
-            <Form.Item name='checkIn' rules={[{ required: true, message: 'Vui lòng chọn ngày check-in!' }]}>
+            <Form.Item name='checkInDate' rules={[{ required: true, message: 'Vui lòng chọn ngày check-in!' }]}>
               <DatePicker className='w-full' format='DD/MM/YYYY' />
             </Form.Item>
           </div>
           <div>
             <span className='text-gray-700 mb-1 block'>Ngày trả phòng</span>
-            <Form.Item name='checkOut' rules={[{ required: true, message: 'Vui lòng chọn ngày check-out!' }]}>
+            <Form.Item name='checkOutDate' rules={[{ required: true, message: 'Vui lòng chọn ngày check-out!' }]}>
               <DatePicker className='w-full' format='DD/MM/YYYY' />
             </Form.Item>
           </div>
@@ -73,4 +92,4 @@ const FormSeach = () => {
   )
 }
 
-export default FormSeach
+export default FormSearch
