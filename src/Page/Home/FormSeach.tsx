@@ -1,23 +1,14 @@
 import { DatePicker, Form, Input, Select } from 'antd'
-
 import { motion } from 'framer-motion'
 import useProvince from '../../hooks/province/useProvince'
 import { SearchRoomRequest } from '../../hooks/room/types'
 import moment from 'moment'
-import { useSearchRoom } from '../../hooks/room/useSearchRoom'
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-const initialState = {
-  checkInDate: '',
-  checkOutDate: '',
-  city: '',
-  room: '',
-  capacity: ''
-}
+
 const FormSearch = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
- 
+
   const { data, isLoading } = useProvince()
   const provinces = data?.data
   const cityOptions = provinces?.map((province) => {
@@ -33,7 +24,7 @@ const FormSearch = () => {
       checkOutDate: moment(new Date(formValues.checkOutDate)).format('YYYY-MM-DD')
     }
     form.resetFields()
-    navigate('/roomlist', {state: params})
+    navigate('/roomlist', { state: params })
   }
   return (
     <div className='bg-white mx-4 md:mx-[20%] xl:mx-[25%] p-6 md:p-8 rounded-lg shadow-lg'>
@@ -55,12 +46,32 @@ const FormSearch = () => {
           <div>
             <span className='text-gray-700 mb-1 block'>Ngày đặt Phòng</span>
             <Form.Item name='checkInDate' rules={[{ required: true, message: 'Vui lòng chọn ngày check-in!' }]}>
-              <DatePicker className='w-full' format='DD/MM/YYYY' />
+              <DatePicker
+                className='w-full'
+                format='DD/MM/YYYY'
+                disabledDate={(current) => {
+                  return current && current < moment().startOf('day')
+                }}
+              />
             </Form.Item>
           </div>
           <div>
             <span className='text-gray-700 mb-1 block'>Ngày trả phòng</span>
-            <Form.Item name='checkOutDate' rules={[{ required: true, message: 'Vui lòng chọn ngày check-out!' }]}>
+            <Form.Item
+              name='checkOutDate'
+              rules={[
+                { required: true, message: 'Vui lòng chọn ngày check-out!' },
+                {
+                  validator: (_, value) => {
+                    const checkInDate = form.getFieldValue('checkInDate')
+                    if (!value || !checkInDate || value.isAfter(checkInDate)) {
+                      return Promise.resolve()
+                    }
+                    return Promise.reject(new Error('Ngày check-out phải lớn hơn ngày check-in!'))
+                  }
+                }
+              ]}
+            >
               <DatePicker className='w-full' format='DD/MM/YYYY' />
             </Form.Item>
           </div>

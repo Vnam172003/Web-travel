@@ -1,8 +1,9 @@
-import { Card, Col, Row, Typography, Pagination, Select } from 'antd'
+import { Card, Col, Row, Typography, Pagination, Select, Spin } from 'antd'
 import { StarFilled, HeartOutlined, HeartFilled } from '@ant-design/icons'
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useSearchRoom } from '../../../hooks/room/useSearchRoom'
+import LoadingElement from '../../../Components/LoadingElement'
 const { Title, Text } = Typography
 
 // Dữ liệu mẫu cho danh sách phòng
@@ -54,12 +55,6 @@ const RoomList = () => {
 
   const { data, isLoading } = useSearchRoom(location?.state)
   const resultFind = data?.data.data
-  // set to list
-  //moi lan  user filter
-  // Tính toán danh sách phòng hiển thị theo trang hiện tại
-  const indexOfLastRoom = currentPage * pageSize
-  const indexOfFirstRoom = indexOfLastRoom - pageSize
-  const currentRooms = roomData.slice(indexOfFirstRoom, indexOfLastRoom)
 
   // Xử lý nút yêu thích
   const toggleFavorite = (roomId: number) => {
@@ -70,11 +65,10 @@ const RoomList = () => {
           : [...prevFavorites, roomId] // Thêm yêu thích
     )
   }
-
-  return (
-    <div className='p-4 '>
-      <Title level={3}>
-        Myrtle Beach: đã tìm thấy <span className='result_find'>{resultFind?.length}</span> kết quả
+  const renderContent = ()=>{
+    return <div className='p-4'> 
+    <Title level={3}>
+        BTravel: đã tìm thấy <span className='result_find'>{resultFind?.length}</span> kết quả
       </Title>
       <div>
         <Select className='w-[50%]' defaultValue={1}>
@@ -84,7 +78,7 @@ const RoomList = () => {
       </div>
       <Row gutter={[16, 16]}>
         {resultFind?.map((room) => (
-          <Col span={8} key={room.id}>
+          <Col span={24} key={room.id}>
             <Card
               hoverable
               className='room-card shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 mt-5'
@@ -132,9 +126,10 @@ const RoomList = () => {
         total={totalRooms}
         onChange={(page) => setCurrentPage(page)}
         style={{ marginTop: '20px', textAlign: 'center' }}
-      />
-    </div>
-  )
+      /></div>
+    }
+  return isLoading ? <LoadingElement/>  : renderContent()
+
 }
 
 export default RoomList
