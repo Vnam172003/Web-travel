@@ -1,4 +1,4 @@
-import { Button, Form, Typography } from 'antd'
+import { Button, DatePicker, Form, Input, Typography } from 'antd'
 import {
   HeartOutlined,
   VerticalAlignBottomOutlined,
@@ -8,6 +8,8 @@ import {
   SafetyOutlined
 } from '@ant-design/icons'
 import { Rate } from 'antd'
+
+import Payment from '../Payment/Payment'
 
 const { Title } = Typography
 const RoomDetails = () => {
@@ -125,7 +127,7 @@ const RoomDetails = () => {
               </Title>
             </div>
             {/* Infor */}
-            <div className='col-span-1'>
+            {/* <div className='col-span-1'>
               <Form action='' className='border rounded-lg p-3'>
                 <div className='flex items-center gap-1'>
                   <Title level={3}>190.000đ</Title>
@@ -161,8 +163,10 @@ const RoomDetails = () => {
                   <Title level={4}>Tổng tiền: 220.000đ</Title>
                 </div>
               </Form>
-            </div>
+            </div> */}
           </div>
+
+          <Payment />
           {/* New reviews section */}
           <div className='mt-5 border-t pt-3'>
             <h3 className='text-xl font-bold'>Đánh giá phòng</h3> {/* Increased heading size */}
