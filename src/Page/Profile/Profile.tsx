@@ -161,7 +161,11 @@ const Profile = () => {
                   <p className='font-medium text-gray-700 '>Địa chỉ email</p>
                   <p className='text-gray-500 mt-1'>
                     {userDetails.email}
-                    <span className='bg-green-700 text-white p-1 ml-1 font-medium '>
+                    <span
+                      className={`p-1 ml-1 font-medium text-white ${
+                        userDetails.emailVerified ? 'bg-green-700 rounded' : 'bg-red-700 rounded'
+                      }`}
+                    >
                       {userDetails.emailVerified ? 'Đã xác thực' : 'Chưa xác thực'}
                     </span>
                   </p>

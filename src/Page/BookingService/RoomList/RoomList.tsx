@@ -3,7 +3,6 @@ import { StarFilled, HeartOutlined, HeartFilled } from '@ant-design/icons'
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useSearchRoom } from '../../../hooks/room/useSearchRoom'
-
 const { Title, Text } = Typography
 
 // Dữ liệu mẫu cho danh sách phòng
@@ -51,10 +50,10 @@ const RoomList = () => {
   const [favoriteRooms, setFavoriteRooms] = useState<number[]>([])
   const pageSize = 4 // Số lượng phòng hiển thị trên mỗi trang
   const totalRooms = roomData.length
-  const location = useLocation();
+  const location = useLocation()
 
-  const { data, isLoading } = useSearchRoom(location?.state);
-  console.log(data);
+  const { data, isLoading } = useSearchRoom(location?.state)
+  const resultFind = data?.data.data
   // set to list
   //moi lan  user filter
   // Tính toán danh sách phòng hiển thị theo trang hiện tại
@@ -73,8 +72,10 @@ const RoomList = () => {
   }
 
   return (
-    <div className='p-4'>
-      <Title level={3}>Myrtle Beach: tìm thấy 4.410 chỗ nghỉ</Title>
+    <div className='p-4 '>
+      <Title level={3}>
+        Myrtle Beach: đã tìm thấy <span className='result_find'>{resultFind?.length}</span> kết quả
+      </Title>
       <div>
         <Select className='w-[50%]' defaultValue={1}>
           <option value={1}>Giá: Thấp đến Cao</option>
@@ -82,22 +83,22 @@ const RoomList = () => {
         </Select>
       </div>
       <Row gutter={[16, 16]}>
-        {currentRooms.map((room) => (
+        {resultFind?.map((room) => (
           <Col span={8} key={room.id}>
             <Card
               hoverable
               className='room-card shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 mt-5'
             >
               <Link to={'/roomDetails'} className='block'>
-                <img alt={room.name} src={room.image} className='w-full h-48 object-cover' />
+                <img alt={room.hotel.name} src={room.images} className='w-full h-48 object-cover' />
               </Link>
               <div className='p-4 flex justify-between'>
                 <Card.Meta
-                  title={<span className='text-xl font-semibold'>{room.name}</span>}
+                  title={<span className='text-xl font-semibold'>{room.hotel.name}</span>}
                   description={
                     <div className='mt-2'>
                       {/* Margin top for spacing */}
-                      <Text strong className='text-lg text-gray-800'>{`$${room.price} / đêm`}</Text>
+                      <Text strong className='text-lg text-gray-800'>{`$${room.pricePerNight} / đêm`}</Text>
                       <div className='flex items-center mt-1'>
                         {Array.from({ length: 5 }, (_, index) => (
                           <StarFilled

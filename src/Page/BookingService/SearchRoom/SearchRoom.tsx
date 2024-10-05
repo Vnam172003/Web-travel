@@ -42,11 +42,11 @@ const SearchRoom = () => {
   }
 
   return (
-    <div className='border rounded-lg flex-grow'>
+    <div className=' border rounded-lg flex-grow'>
       <Form className='py-5 px-2 w-full'>
         <Flex gap='middle' vertical>
           {/* Thành phố */}
-          <div className='mt-4'>
+          {/* <div className='mt-4'>
             <Title level={5}>Thành phố</Title>
             <Select
               mode='multiple'
@@ -59,9 +59,9 @@ const SearchRoom = () => {
               <Option value='ha-noi'>Hà Nội</Option>
               <Option value='da-nang'>Đà Nẵng</Option>
               <Option value='hanoi'>Hà Nội</Option>
-              {/* Thêm các tùy chọn thành phố khác */}
             </Select>
-          </div>
+          </div> */}
+          {/* Thêm các tùy chọn thành phố khác */}
 
           {/* Giá phòng */}
           <div className='mt-4'>

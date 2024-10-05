@@ -7,8 +7,8 @@ const Nav: React.FC = () => {
         Lưu trú
       </Link>
       <p className={` px-5 py-2 cursor-pointer `}>Giới thiệu</p>
-      <Link to={'/roomlist'} className={` px-5 py-2 cursor-pointer `}>
-        Đặt Phòng
+      <Link to={'/hotel'} className={` px-5 py-2 cursor-pointer `}>
+        Địa Điểm Tham Quan
       </Link>
     </div>
   )

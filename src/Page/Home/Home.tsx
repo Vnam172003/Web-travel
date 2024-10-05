@@ -60,7 +60,7 @@ const Home = () => {
             <div className='col-span-1 mx-16'>
               <h1 className='text-5xl md:text-6xl font-bold mb-4'>Khám Phá Việt Nam</h1>
               <p className='text-xl md:text-4xl mb-8'>Trải nghiệm vẻ đẹp đa dạng và văn hóa phong phú</p>
-              <Link
+              {/* <Link
                 to='/roomlist
               '
               >
@@ -71,7 +71,7 @@ const Home = () => {
                 >
                   Đặt Phòng ngay
                 </motion.button>
-              </Link>
+              </Link> */}
               <p className='text-base md:text-lg mt-20'>
                 Dù là một chuyến đi nghỉ dưỡng ngắn ngày hay một kỳ nghỉ dài, chúng tôi luôn có sẵn những gói dịch vụ
                 tốt nhất để đáp ứng mọi nhu cầu của bạn. Đặt chỗ ngay để không bỏ lỡ những trải nghiệm tuyệt vời tại
