@@ -8,7 +8,7 @@ export default function Payment() {
   return (
     <div className='main'>
       <h3 className='font-bold text-4xl m-10'>Phòng Trống</h3>
-      <div className='bg-white font-bold rounded-lg shadow-lg border-4 border-yellow-300 mx-56'>
+      <div className='bg-white font-bold rounded-lg shadow-lg border-4 border-black mx-56'>
         <Form className=''>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4 p-3'>
             <div>
