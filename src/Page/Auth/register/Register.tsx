@@ -1,4 +1,3 @@
-import { ButtonAdnt } from '../../../Components/button'
 import { createUserWithEmailAndPassword, User } from 'firebase/auth'
 import { auth, db } from '../../../../firebase/FirebaseConfig'
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore'
@@ -11,6 +10,7 @@ import InputEye from '../../../Components/inputEye'
 import { Link } from 'react-router-dom'
 import { sendEmailVerification, onAuthStateChanged } from 'firebase/auth'
 import { getUserInfo, TypeInfor } from '../../../Types/Users.type'
+import { Button } from '../../../Components/button'
 const Register = () => {
   const {
     register,
@@ -82,14 +82,35 @@ const Register = () => {
       <div>
         <div className='grid grid-cols-2 '>
           <div className='mr-1'>
-            <Input type='text' label='firstName' register={register} errors={errors} required={true} placeholder=' ' />
+            <Input
+              type='text'
+              label='firstName'
+              register={register}
+              errors={errors}
+              required={true}
+              placeholder=' Nhập Họ'
+            />
           </div>
           <div className='ml-1'>
-            <Input type='text' label='lastName' register={register} errors={errors} required={true} placeholder=' ' />
+            <Input
+              type='text'
+              label='lastName'
+              register={register}
+              errors={errors}
+              required={true}
+              placeholder='Nhập tên '
+            />
           </div>
         </div>
 
-        <Input type='email' label='email' register={register} errors={errors} required={true} placeholder=' ' />
+        <Input
+          type='email'
+          label='email'
+          register={register}
+          errors={errors}
+          required={true}
+          placeholder='Nhập email'
+        />
         <InputEye label='Password' register={register} errors={errors} required={true} placeholder=' ' />
         <p className='text-sx text-gray-500 mt-3'>
           Bạn đã có tài khoản?
@@ -98,7 +119,7 @@ const Register = () => {
           </Link>
         </p>
       </div>
-      <ButtonAdnt label='Tiếp tục' style='py-3' />
+      <Button label='Tiếp tục' style='py-3' />
     </form>
   )
 }

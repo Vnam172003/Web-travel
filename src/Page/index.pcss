@@ -1,3 +1,31 @@
 @import './Profile/Profile.pcss';
 @import './BookingService/BookingService.pcss';
 @import './RoomDetails/RoomDetails.pcss';
+@import './Home/Home.pcss';
+
+.ant-btn {
+  padding: 20px !important; /* Đặt padding cho nút */
+
+  /* Đặt border cho nút mặc định */
+  border: 1px solid transparent; /* Border mặc định là trong suốt */
+
+  /* Border đen khi hover */
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(105, 105, 105, 0.5) 0%,
+      rgba(105, 105, 105, 0.5) 100%
+    ) !important; /* Nền khi hover */
+    border-color: black !important; /* Border đen khi hover */
+  }
+
+  &:focus {
+    border-color: black !important; /* Border đen khi nút được nhấn */
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+.ant-typography {
+  padding: 0 !important;
+}

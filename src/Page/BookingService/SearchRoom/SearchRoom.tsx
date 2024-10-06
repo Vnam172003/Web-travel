@@ -33,7 +33,6 @@ const SearchRoom = () => {
   }
 
   const handleSearch = () => {
-    // Xử lý tìm kiếm ở đây
     console.log('Thành phố:', selectedCities)
     console.log('Giá phòng:', priceRange)
     console.log('Xếp hạng khách sạn:', rating)
@@ -47,10 +46,10 @@ const SearchRoom = () => {
         <Flex gap='middle' vertical>
           {/* Thành phố */}
           <div className='mt-4'>
-            <Title level={5}>Thành phố</Title>
+            <Title level={5}>TÌm kiếm phòng</Title>
             <Select
               mode='multiple'
-              placeholder='Chọn thành phố'
+              placeholder='Tìm kiếm Phòng'
               onChange={handleCityChange}
               className='w-full'
               allowClear

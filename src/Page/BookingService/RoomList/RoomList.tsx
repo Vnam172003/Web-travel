@@ -51,10 +51,11 @@ const RoomList = () => {
   const [favoriteRooms, setFavoriteRooms] = useState<number[]>([])
   const pageSize = 4 // Số lượng phòng hiển thị trên mỗi trang
   const totalRooms = roomData.length
-  const location = useLocation();
+  const location = useLocation()
 
-  const { data, isLoading } = useSearchRoom(location?.state);
-  console.log(data);
+  const { data, isLoading } = useSearchRoom(location?.state)
+  console.log(isLoading)
+  console.log(data)
   // set to list
   //moi lan  user filter
   // Tính toán danh sách phòng hiển thị theo trang hiện tại

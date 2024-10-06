@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '../button'
 
 const Footer = () => {
   return (
@@ -70,7 +71,7 @@ const Footer = () => {
               placeholder='Email của bạn'
               className='p-2 mt-2 w-full border-b my-1 border-primary  focus:outline-none focus:ring-primary focus:border-primary'
             />
-            <button className='bg-primary rounded-md text-white p-2 mt-2 w-full hover:bg-primary/90'>Đăng Ký</button>
+            <Button label='Đăng ký' />
           </div>
         </div>
         <div className='text-center mt-10'>

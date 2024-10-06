@@ -1,12 +1,11 @@
 import { DatePicker, Form, Input, Select } from 'antd'
 
-import { motion } from 'framer-motion'
 import useProvince from '../../hooks/province/useProvince'
 import { SearchRoomRequest } from '../../hooks/room/types'
 import moment from 'moment'
-import { useSearchRoom } from '../../hooks/room/useSearchRoom'
-import { useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../../Components/button'
 const initialState = {
   checkInDate: '',
   checkOutDate: '',
@@ -17,7 +16,7 @@ const initialState = {
 const FormSearch = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
- 
+
   const { data, isLoading } = useProvince()
   const provinces = data?.data
   const cityOptions = provinces?.map((province) => {
@@ -33,7 +32,7 @@ const FormSearch = () => {
       checkOutDate: moment(new Date(formValues.checkOutDate)).format('YYYY-MM-DD')
     }
     form.resetFields()
-    navigate('/roomlist', {state: params})
+    navigate('/roomlist', { state: params })
   }
   return (
     <div className='bg-white mx-4 md:mx-[20%] xl:mx-[25%] p-6 md:p-8 rounded-lg shadow-lg'>
@@ -78,14 +77,7 @@ const FormSearch = () => {
 
         {/* Nút Submit */}
         <Form.Item>
-          <motion.button
-            type='submit'
-            className='w-full bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary/90 transition'
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Tìm kiếm
-          </motion.button>
+          <Button label='tìm kiếm' />
         </Form.Item>
       </Form>
     </div>

@@ -7,15 +7,15 @@ export type TypeInfor = User & {
 
 export const getUserInfo = (userInfo: TypeInfor) => {
   const uid = userInfo.uid
-  const displayName = userInfo.displayName
-  const email = userInfo.email
-  const phoneNumber = userInfo.phoneNumber
-  const emailVerified = userInfo.emailVerified
-  const photoURL = userInfo.photoURL
-  const createdAt = userInfo.metadata?.creationTime
-  const lastLoginAt = userInfo.metadata?.lastSignInTime
-  const birthDate = userInfo.birthDate ?? null
-  const gender = userInfo.gender ?? null
+  const displayName = userInfo.displayName || null
+  const email = userInfo.email || null
+  const phoneNumber = userInfo.phoneNumber || null
+  const emailVerified = userInfo.emailVerified || null
+  const photoURL = userInfo.photoURL || null
+  const createdAt = userInfo.metadata?.creationTime || null
+  const lastLoginAt = userInfo.metadata?.lastSignInTime || null
+  const birthDate = userInfo.birthDate || null
+  const gender = userInfo.gender || null
 
   return {
     uid,

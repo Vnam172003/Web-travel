@@ -1,4 +1,3 @@
-import { ButtonAdnt } from '../../../Components/button'
 import { useForm } from 'react-hook-form'
 import { schema, schemaType } from '../../../utils/Rule'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -9,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { Input } from '../../../Components/input'
 import InputEye from '../../../Components/inputEye'
 import { notification } from 'antd'
+import { Button } from '../../../Components/button'
 
 const Login = () => {
   const {
@@ -37,8 +37,8 @@ const Login = () => {
   }
   return (
     <form className='space-y-4' onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Input type='email' label='email' register={register} errors={errors} required={true} placeholder=' ' />
-      <InputEye label='Password' register={register} errors={errors} required={true} placeholder=' ' />
+      <Input type='email' label='email' register={register} errors={errors} required={true} placeholder='Nhập Email ' />
+      <InputEye label='Password' register={register} errors={errors} required={true} placeholder='Nhập mật khẩu ' />
 
       <p className='text-sx text-gray-500 mt-3'>
         Bạn chưa có tài khoản?
@@ -47,7 +47,7 @@ const Login = () => {
         </Link>
       </p>
 
-      <ButtonAdnt label='Tiếp tục' style='py-3' />
+      <Button label='Đăng nhập' style='py-3' />
     </form>
   )
 }

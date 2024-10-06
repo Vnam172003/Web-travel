@@ -8,6 +8,7 @@ html {
 }
 body {
   font-family: 'Roboto', sans-serif;
+  overflow-y: scroll;
   font-size: 14px;
   line-height: 1.2;
   margin: 0;
@@ -17,3 +18,4 @@ body {
   color: #000000;
   background-color: #fff;
 }
+

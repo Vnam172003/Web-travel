@@ -11,6 +11,7 @@ import VerifyEmail from '../Page/Auth/verifyEmail/VerifyEmail'
 
 import SearchAndListView from '../Page/BookingService/SearchAndListView'
 import RoomDetails from '../Page/RoomDetails'
+import BookingHistory from '../Page/History'
 
 const RouterElement = () => {
   return (
@@ -24,7 +25,7 @@ const RouterElement = () => {
         <Route path='/verify' element={<VerifyEmail />}></Route>
         <Route path='/roomlist' element={<SearchAndListView />}></Route>
         <Route path='/roomDetails' element={<RoomDetails />}></Route>
-
+        <Route path='/history' element={<BookingHistory />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
       </Route>
     </Routes>
