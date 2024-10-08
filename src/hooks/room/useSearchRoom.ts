@@ -6,6 +6,6 @@ export const useSearchRoom = (params: SearchRoomRequest) => {
   return useQuery({
     queryKey: [ROOM],
     queryFn: () => api.get('room/findAll', { params }),
-    enabled: !!params,
+    enabled: !!params
   })
 }

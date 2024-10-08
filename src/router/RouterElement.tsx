@@ -25,7 +25,7 @@ const RouterElement = () => {
         </Route>
         <Route path='/verify' element={<VerifyEmail />}></Route>
         <Route path='/roomlist' element={<SearchAndListView />}></Route>
-        <Route path='/roomDetails' element={<RoomDetails />}></Route>
+        <Route path='/hotelDetails/:hotelId' element={<RoomDetails />}></Route>
         <Route path='/hotel' element={<Hotel />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/payment' element={<Payment />}></Route>

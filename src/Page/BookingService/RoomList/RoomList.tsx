@@ -19,11 +19,8 @@ const RoomList = () => {
 
   // Xử lý nút yêu thích
   const toggleFavorite = (roomId: number) => {
-    setFavoriteRooms(
-      (prevFavorites) =>
-        prevFavorites.includes(roomId)
-          ? prevFavorites.filter((id) => id !== roomId) // Bỏ yêu thích
-          : [...prevFavorites, roomId] // Thêm yêu thích
+    setFavoriteRooms((prevFavorites) =>
+      prevFavorites.includes(roomId) ? prevFavorites.filter((id) => id !== roomId) : [...prevFavorites, roomId]
     )
   }
   const renderContent = () => {
@@ -45,7 +42,7 @@ const RoomList = () => {
                 hoverable
                 className='room-card shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 mt-5'
               >
-                <Link to={'/roomDetails'} className='block'>
+                <Link to={`/hotelDetails/${room.hotel._id}`} className='block'>
                   <img alt={room.hotel.name} src={room.images} className='w-full h-48 object-cover' />
                 </Link>
                 <div className='p-4 flex justify-between'>
