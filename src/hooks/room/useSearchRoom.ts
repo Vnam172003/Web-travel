@@ -3,6 +3,7 @@ import api from '../../api/api'
 import { ROOM } from '../../service/constants'
 import { SearchRoomRequest } from './types'
 interface Hotel {
+  _id: string;
   name: string
   star: number
   address: string

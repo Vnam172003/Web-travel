@@ -12,7 +12,6 @@ export default function Payment({ rooms }) {
     const checkInDate = params.get('checkInDate')
     const checkOutDate = params.get('checkOutDate')
     const capacity = params.get('capacity')
-
     // Set các giá trị này vào form
     if (checkInDate) {
       form.setFieldsValue({
@@ -46,7 +45,6 @@ export default function Payment({ rooms }) {
     }
     try {
       const response = await axios.post('http://localhost:4000/api/v1/booking/createOrder', params)
-      console.log(response)
       if (response.data.data && response.data.data.paymentUrl) {
         window.location.href = response.data.data.paymentUrl
       }
@@ -76,7 +74,14 @@ export default function Payment({ rooms }) {
       }
     })
   }
-
+  const countMap = new Map()
+  rooms.forEach((room) => {
+    if (!countMap.has(room.name)) {
+      countMap.set(room.name, 1)
+    } else {
+      countMap.set(room.name, countMap.get(room.name) + 1)
+    }
+  })
   const totalPrice = rooms.reduce((total: number, room: any) => {
     const quantity = roomQuantities[room._id] || 0
     return total + room.pricePerNight * quantity
@@ -113,7 +118,7 @@ export default function Payment({ rooms }) {
         <div className='body_main'>
           <div className='form_detail_room'>
             <div className='heading_room'>
-              <div className='heading_room_value'>Loại chỗ nghỉ</div>
+              <div className='heading_room_value'>Loại Phòng</div>
               <div className='heading_room_value'>Giá của phòng</div>
               <div className='heading_room_value'>Số Lượng Phòng</div>
             </div>
@@ -122,13 +127,15 @@ export default function Payment({ rooms }) {
                 rooms.map((room) => (
                   <div key={room.id} className='body_room_total'>
                     <div className='body_room_value'>
-                      {room.roomNumber} - {room.type}
+                      {room.roomNumber} - {room.name}
                     </div>
                     <div className='body_room_value'>{room.pricePerNight.toLocaleString()} VND</div>
                     <Input
+                      suffix={"còn " +countMap.get(room.name) + " phòng"}
                       placeholder='số lượng phòng'
                       type='number'
-                      min={0}
+                      min={1}
+                      max={countMap.get(room.name)}
                       className='w-[30%] mr-10'
                       onChange={(e) => handleQuantityChange(room._id, Number(e.target.value))}
                     />
