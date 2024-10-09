@@ -25,7 +25,7 @@ export interface Room {
   images: string[]
 }
 export const useSearchRoom = (params: SearchRoomRequest) => {
-  return useQuery<{ data: { data: Room[] } }>({
+  return useQuery<{ data: { rooms: Room[], total: number } }>({
     queryKey: [ROOM],
     queryFn: () => api.get('room/findAll', { params }),
     enabled: !!params

@@ -4,5 +4,6 @@ export interface SearchRoomRequest{
     city: string,
     room: string,
     capacity: string,
+    limit: number,
     
 }

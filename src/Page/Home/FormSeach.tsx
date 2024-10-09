@@ -37,15 +37,15 @@ const FormSearch = () => {
       </div>
       <Form form={form} onFinish={handleSearchRoom} className='mt-6'>
         <div className='mb-4'>
-          <span className='text-gray-700 mb-1 block capitalize'>Thành phố hoặc tên khách sạn</span>
-          <Form.Item name='city' rules={[{ required: true, message: 'Vui lòng nhập thành phố hoặc tên khách sạn!' }]}>
+          <span className='text-gray-700 mb-1 block capitalize'>Thành phố</span>
+          <Form.Item name='city' rules={[{ required: true, message: 'Vui lòng nhập thành phố!' }]}>
             <Select placeholder='Chọn thành phố' loading={isLoading} options={cityOptions} />
           </Form.Item>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
           <div>
             <span className='text-gray-700 mb-1 block'>Ngày đặt Phòng</span>
-            <Form.Item name='checkInDate' rules={[{ required: true, message: 'Vui lòng chọn ngày check-in!' }]}>
+            <Form.Item  name='checkInDate' rules={[{ required: true, message: 'Vui lòng chọn ngày check-in!' }]}>
               <DatePicker
                 className='w-full'
                 format='DD/MM/YYYY'
@@ -72,7 +72,7 @@ const FormSearch = () => {
                 }
               ]}
             >
-              <DatePicker className='w-full' format='DD/MM/YYYY' />
+              <DatePicker  className='w-full' format='DD/MM/YYYY' />
             </Form.Item>
           </div>
         </div>
