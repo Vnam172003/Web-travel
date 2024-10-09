@@ -1,3 +1,3 @@
-import SearchAndListView from './SearchAndListView'
+import SearchRoomResult from './SearchRoomResult'
 
-export default SearchAndListView
+export default SearchRoomResult

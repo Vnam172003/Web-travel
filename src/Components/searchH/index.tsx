@@ -1,7 +1,12 @@
 import { DatePicker, Form, Input } from "antd";
 import { motion } from 'framer-motion';
 import moment from 'moment'
-const SearchHorizontal  =()=>{
+import { SearchRoomRequest } from "../../hooks/room/types";
+interface Props {
+  initParams: SearchRoomRequest
+}
+const SearchHorizontal  =({initParams} :Props)=>{
+  console.log(initParams);
     const [form] = Form.useForm()
    return  <div className='bg-white font-bold rounded-lg shadow-lg border-1 border-black mt-3'>
     <Form className=''>
