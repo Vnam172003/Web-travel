@@ -45,6 +45,7 @@ const RoomList = ({ rooms, total, isLoading, searchParams, onLoadMore }: Props) 
               </div>
             </div>
 
+
             <div className='flex flex-col justify-between gap-1'>
               <div className='flex justify-center gap-2'>
                 <div className='flex flex-col'>
