@@ -4,12 +4,13 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { TypeInfor } from '../../Types/Users.type'
 import { Select, Skeleton } from 'antd'
 import { reload } from 'firebase/auth'
-import { CameraFilled, EditFilled } from '@ant-design/icons'
+import { EditFilled } from '@ant-design/icons'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { Image } from 'antd'
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState<TypeInfor | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [updatedInfo, setUpdatedInfo] = useState<any>({})
   const [imageUrl, setImageUrl] = useState<string>('')
 
