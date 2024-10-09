@@ -1,3 +1,3 @@
-import SearchRoom from './SearchRoom'
+import SearchRoom from './FilterRoom'
 
 export default SearchRoom
