@@ -16,7 +16,7 @@ import axios from 'axios'
 
 const { Title } = Typography
 const RoomDetails = () => {
-  const { hotelId } = useParams<{ hotelId: string }>() // Lấy hotelId từ URL
+  const { hotelId } = useParams<{ hotelId: string }>()
   const [hotel, setHotel] = useState(null)
   const [rooms, setRooms] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -67,6 +67,7 @@ const RoomDetails = () => {
                 <img src={hotel?.images[1]} alt='Small Image 1' className='w-full h-auto rounded-lg' />
                 <img src={hotel?.images[2]} alt='Small Image 2' className='w-full h-auto rounded-lg' />
                 <img src={hotel?.images[3]} alt='Small Image 3' className='w-full h-auto rounded-lg' />
+                <img src={hotel?.images[4]} alt='Small Image 4' className='w-full h-auto rounded-lg' />
                 <img src={hotel?.images[5]} alt='Small Image 4' className='w-full h-auto rounded-lg' />
               </div>
             </div>

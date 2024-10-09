@@ -42,7 +42,10 @@ const RoomList = () => {
                 hoverable
                 className='room-card shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 mt-5'
               >
-                <Link to={`/hotelDetails/${room.hotel._id}`} className='block'>
+                <Link
+                  to={`/hotelDetails/${room.hotel._id}?checkInDate=${location.state.checkInDate}&checkOutDate=${location.state.checkOutDate}&capacity=${location.state.capacity}`}
+                  className='block'
+                >
                   <img alt={room.hotel.name} src={room.images} className='w-full h-48 object-cover' />
                 </Link>
                 <div className='p-4 flex justify-between'>

@@ -2,12 +2,36 @@ import { DatePicker, Form, Input } from 'antd'
 import { CreateOrderBooking } from '../../hooks/room/types'
 import moment from 'moment'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 export default function Payment({ rooms }) {
   const [form] = Form.useForm()
   const [roomQuantities, setRoomQuantities] = useState([])
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const checkInDate = params.get('checkInDate')
+    const checkOutDate = params.get('checkOutDate')
+    const capacity = params.get('capacity')
 
+    // Set các giá trị này vào form
+    if (checkInDate) {
+      form.setFieldsValue({
+        checkInDate: moment(checkInDate)
+      })
+    }
+
+    if (checkOutDate) {
+      form.setFieldsValue({
+        checkOutDate: moment(checkOutDate)
+      })
+    }
+
+    if (capacity) {
+      form.setFieldsValue({
+        capacity: capacity
+      })
+    }
+  }, [form])
   const handleSearchRoom = async (formValues: CreateOrderBooking) => {
     const rooms = Object.entries(roomQuantities).map(([id, quantity]) => ({
       id,
@@ -78,7 +102,7 @@ export default function Payment({ rooms }) {
             <div>
               <span className='text-gray-700 mb-1 block '>Số lượng khách</span>
               <div className='flex gap-4 w-full'>
-                <Form.Item name='totalGuests' rules={[{ required: true, message: 'Vui lòng chọn số lượng khách!' }]}>
+                <Form.Item name='capacity' rules={[{ required: true, message: 'Vui lòng chọn số lượng khách!' }]}>
                   <Input placeholder='số lượng khách' type='number' min={0} className='w-full' />
                 </Form.Item>
               </div>
@@ -101,7 +125,6 @@ export default function Payment({ rooms }) {
                       {room.roomNumber} - {room.type}
                     </div>
                     <div className='body_room_value'>{room.pricePerNight.toLocaleString()} VND</div>
-                    {/* <div className='body_room_value'>{room.capacity} người</div> */}
                     <Input
                       placeholder='số lượng phòng'
                       type='number'
