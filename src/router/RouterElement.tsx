@@ -13,6 +13,7 @@ import SearchAndListView from '../Page/BookingService/SearchAndListView'
 import RoomDetails from '../Page/RoomDetails'
 import Hotel from '../Page/Hotel/Hotel'
 import Payment from '../Page/Payment/Payment'
+import Success from '../Page/Payment/Success'
 
 const RouterElement = () => {
   return (
@@ -29,6 +30,7 @@ const RouterElement = () => {
         <Route path='/hotel' element={<Hotel />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
+        <Route path='/success' element={<Success />}></Route>
       </Route>
     </Routes>
   )
