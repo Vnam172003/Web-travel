@@ -64,7 +64,12 @@ const SearchRoomResult = () => {
               className='w-full h-auto rounded-lg'
             />
           </div>
-          <FilterRoom handleChange={handleChange} handleFilter={handleFilter} filters={filters} handleReset={handleReset} />
+          <FilterRoom
+            handleChange={handleChange}
+            handleFilter={handleFilter}
+            filters={filters}
+            handleReset={handleReset}
+          />
         </div>
         <div className='md:col-span-9  '>
           <RoomList

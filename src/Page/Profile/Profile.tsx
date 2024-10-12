@@ -102,7 +102,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className='bg-gray-100 min-h-screen flex justify-center my-10'>
+      <div className='  flex justify-center my-16'>
         {userDetails ? (
           <div className='max-w-4xl w-full bg-white p-6 rounded-lg shadow-lg mt-10'>
             <div className='flex items-center justify-between'>

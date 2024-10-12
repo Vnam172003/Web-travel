@@ -41,10 +41,10 @@ const InforHeader = () => {
   }, [])
   // popover
   const content = (
-    <div className='w-[200px]  bg-white    '>
+    <div className='w-[250px] mx-auto bg-white    '>
+      <h3 className='text-lg font-bold mb-2  border p-4 bg-black text-white text-center '>Btravel chào bạn </h3>
       {!user ? (
         <>
-          <h3 className='text-lg font-semibold mb-2'>Chào mừng bạn!</h3>
           <Link to='/login' className='block text-black hover:bg-primary hover:text-white mb-2 p-2 rounded'>
             Đăng nhập
           </Link>
@@ -53,11 +53,24 @@ const InforHeader = () => {
           </Link>
         </>
       ) : (
-        <div className='w-[200px]'>
-          <h3 className='text-lg font-semibold mb-2 '>Xin chào, {user.displayName}!</h3>
-
-          <Link to='/profile' className='block  text-black hover:bg-primary hover:text-white p-2 rounded'>
+        <div>
+          <Link
+            to='/profile'
+            className='block capitalize text-[18px] text-black hover:bg-primary hover:text-white p-2 rounded'
+          >
             Thông tin cá nhân
+          </Link>
+          <Link
+            to='/history'
+            className='block capitalize text-[18px] text-black hover:bg-primary hover:text-white p-2 rounded'
+          >
+            lịch sử đặt phòng
+          </Link>
+          <Link
+            to='/save'
+            className='block capitalize text-[18px] text-black hover:bg-primary hover:text-white p-2 rounded'
+          >
+            Danh sách yêu thích
           </Link>
           <Logout />
         </div>

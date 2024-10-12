@@ -12,7 +12,7 @@ const Logout = () => {
   return (
     <button
       onClick={handleLogout}
-      className='text-left w-full  text-black hover:bg-primary hover:text-white p-2 rounded'
+      className='text-left w-full capitalize text-[18px] text-black hover:bg-primary hover:text-white p-2 rounded'
     >
       Đăng xuất
     </button>
