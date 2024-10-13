@@ -1,4 +1,5 @@
-import { useLocation } from 'react-router-dom'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useLocation, useNavigate } from 'react-router-dom'
 import RoomList from '../RoomList'
 import { useQueryClient } from '@tanstack/react-query'
 import { SearchRoomRequest } from '../../../hooks/room/types'
@@ -6,9 +7,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSearchRoom } from '../../../hooks/room/useSearchRoom'
 import { ROOM } from '../../../service/constants'
 import FilterRoom from '../SearchRoom/FilterRoom'
+import { Button } from 'antd'
+import { filter } from 'framer-motion/client'
 const DEFAULT_LIMIT = 6
 const SearchRoomResult = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const initialParams: SearchRoomRequest = location?.state || {}
   const [searchParams, setSearchParams] = useState({ ...initialParams, limit: DEFAULT_LIMIT })
@@ -18,9 +22,8 @@ const SearchRoomResult = () => {
   const onLoadMore = useCallback(() => {
     setSearchParams((prev) => ({ ...prev, limit: prev.limit + DEFAULT_LIMIT }))
   }, [])
-  console.log(searchParams)
   const [filters, setFilters] = useState({
-    priceRange: [1000000, 2000000],
+    priceRange: [0, 0],
     rating: [],
     selectedAmenities: [],
     roomType: undefined
@@ -32,24 +35,25 @@ const SearchRoomResult = () => {
     }))
   }
   const handleReset = () => {
-    console.log(123)
+    setSearchParams({...initialParams, limit:DEFAULT_LIMIT});
     setFilters({
-      priceRange: [0, 1000000],
+      priceRange: [0, 0],
       rating: [],
       selectedAmenities: [],
       roomType: undefined
     })
   }
-  const handleFilter = () => {
+  useEffect(() => {
+    const numOfNights = new Date(searchParams.checkOutDate).getDate() - new Date(searchParams.checkInDate).getDate()
     const params = {
-      minPrice: filters.priceRange[0],
-      maxPrice: filters.priceRange[1],
+      minPrice: filters.priceRange[0] / numOfNights,
+      maxPrice: filters.priceRange[1] / numOfNights,
       rating: filters.rating,
       amenities: filters.selectedAmenities,
       roomType: filters.roomType
     }
-    setSearchParams((prev) => ({ ...prev, limit: prev.limit + DEFAULT_LIMIT, ...params }))
-  }
+    setSearchParams((prev) => ({ ...prev, ...params }))
+  }, [filters])
   useEffect(() => {
     queryClient.invalidateQueries([ROOM])
   }, [searchParams, queryClient])
@@ -57,19 +61,10 @@ const SearchRoomResult = () => {
     <div className='container mx-auto px-20 mt-[30px]'>
       <div className='grid grid-cols-1 md:grid-cols-12 gap-6 max-w-7xl'>
         <div className='md:col-span-3 h-full flex flex-col'>
-          <div className='my-5 '>
-            <img
-              src='https://th.bing.com/th/id/OIP.ES4BJg705hslKX0HD8qfGAHaFj?w=308&h=185&c=7&r=0&o=5&pid=1.7'
-              alt=''
-              className='w-full h-auto rounded-lg'
-            />
-          </div>
-          <FilterRoom
-            handleChange={handleChange}
-            handleFilter={handleFilter}
-            filters={filters}
-            handleReset={handleReset}
-          />
+
+  
+          <FilterRoom handleChange={handleChange} filters={filters} handleReset={handleReset} />
+
         </div>
         <div className='md:col-span-9  '>
           <RoomList

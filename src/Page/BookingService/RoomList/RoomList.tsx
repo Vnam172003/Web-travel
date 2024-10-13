@@ -63,7 +63,7 @@ const RoomList = ({ rooms, total, isLoading, searchParams, onLoadMore }: Props) 
                 {numOfNights} đêm, {searchParams.capacity} người
               </p>
               <p className='text-sm line-through'>
-                VND {pricePerNight * numOfNights - pricePerNight * numOfNights * 0.25}
+                VND { ( (pricePerNight * numOfNights) + (pricePerNight * numOfNights * 0.25) ).toLocaleString()}
               </p>
               <p className='text-xl'>VND {discountedPrice.toLocaleString()}</p>
             </div>
