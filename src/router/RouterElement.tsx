@@ -14,6 +14,9 @@ import RoomDetails from '../Page/RoomDetails'
 import Hotel from '../Page/Hotel/Hotel'
 import Payment from '../Page/Payment/Payment'
 import Success from '../Page/Payment/Success'
+import Introduce from '../Page/Introduce'
+import BookingHistory from '../Page/History'
+import SaveBooking from '../Page/SaveBooking'
 
 const RouterElement = () => {
   return (
@@ -30,7 +33,11 @@ const RouterElement = () => {
         <Route path='/hotel' element={<Hotel />}></Route>
         <Route path='/profile' element={<Profile />}></Route>
         <Route path='/payment' element={<Payment />}></Route>
+        <Route path='/history' element={<BookingHistory />}></Route>
+        <Route path='/save' element={<SaveBooking />}></Route>
+
         <Route path='/success' element={<Success />}></Route>
+        <Route path='/introduce' element={<Introduce />}></Route>
       </Route>
     </Routes>
   )

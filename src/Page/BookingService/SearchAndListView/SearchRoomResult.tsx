@@ -61,8 +61,10 @@ const SearchRoomResult = () => {
     <div className='container mx-auto px-20 mt-[30px]'>
       <div className='grid grid-cols-1 md:grid-cols-12 gap-6 max-w-7xl'>
         <div className='md:col-span-3 h-full flex flex-col'>
+
   
           <FilterRoom handleChange={handleChange} filters={filters} handleReset={handleReset} />
+
         </div>
         <div className='md:col-span-9  '>
           <RoomList
