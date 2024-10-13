@@ -10,26 +10,27 @@ import {
 import { Rate } from 'antd'
 
 import Payment from '../Payment/Payment'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import LoadingElement from '../../Components/LoadingElement'
 
 const { Title } = Typography
 const RoomDetails = () => {
-  const { hotelId } = useParams<{ hotelId: string }>()
+  const { hotelId } = useParams<{ hotelId: string }>();
+  const params = new URLSearchParams(window.location.search)
+  const checkInDate = params.get('checkInDate')
+  const checkOutDate = params.get('checkOutDate')
   const [hotel, setHotel] = useState(null)
   const [rooms, setRooms] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchHotelDetails = async () => {
       try {
-        const hotelData = await axios.get(`http://localhost:4000/api/v1/hotels/${hotelId}`)
+        const hotelData = await axios.get(`http://localhost:4000/api/v1/hotels/${hotelId}?checkInDate=${checkInDate}`)
         setHotel(hotelData.data.data)
-        console.log(hotelData.data.data)
-        const roomsData = await axios.get(`http://localhost:4000/api/v1/hotels/rooms/${hotelId}`)
-        console.log(roomsData.data.data)
-        setRooms(roomsData.data.data)
+        setRooms(hotelData.data.data.rooms)
         setIsLoading(false)
       } catch (error) {
         console.error(error)
@@ -39,22 +40,13 @@ const RoomDetails = () => {
 
     fetchHotelDetails()
   }, [hotelId])
-
+  if (isLoading) return <LoadingElement />
   return (
     <div className='main'>
       <div className='container mx-auto my-5'>
         <header className='flex justify-between items-center'>
           <Title level={2}> {hotel?.name} </Title>
-          <div className='  text-lg flex gap-5 cursor-pointer'>
-            <div className='hover:bg-grey1 px-1 py-2 rounded-lg '>
-              <VerticalAlignBottomOutlined />
-              <span className='px-1 underline'>chia sẽ</span>
-            </div>
-            <div className='hover:bg-grey1 px-1 py-2 rounded-lg '>
-              <HeartOutlined />
-              <span className='px-1 underline'>lưu</span>
-            </div>
-          </div>
+          <div className='  text-lg flex gap-5 cursor-pointer'></div>
         </header>
         <body>
           {/* image */}
@@ -75,13 +67,6 @@ const RoomDetails = () => {
           {/* content */}
           <div className='mt-5 grid grid-cols-4 cursor-pointer '>
             <div className='col-span-3 mx-10'>
-              <Title level={3}>Phòng tại South Yarra, Australia</Title>
-              <div className='mt-1 space-x-3'>
-                <span className='text-lg'>4 .khách</span>
-                <span className='text-lg'>2 .phòng ngủ</span>
-                <span className='text-lg'>2 .giường</span>
-                <span className='text-lg'>2 .phòng tắm</span>
-              </div>
               {/* New introduction section */}
               <div className='mt-3'>
                 <Title level={3}>
@@ -116,21 +101,9 @@ const RoomDetails = () => {
                 </div>
               </div>
               {/* New host section */}
+              <h3 className='text-lg font-bold'>Mô tả</h3>
 
-              <div className='my-4'>
-                <h3 className='text-lg font-bold'>Chủ căn hộ</h3>
-                <p className='text-md'>Tên Chủ: John Doe</p>
-              </div>
-
-              <Title level={5}>
-                Chúng tôi sống cách Sacre Coeur 20 phút đi bộ, cách kênh đào Saint-Martin 10 phút đi bộ và cách Gare du
-                Nord 5 phút đi bộ. Căn hộ có cảm giác "bourgeois-boheme", với tác phẩm nghệ thuật gốc và đồ nội thất cổ
-                điển từ những năm 1940-50. Nó cung cấp tất cả sự thoải mái bạn cần: hệ thống sưởi trung tâm, kính hai
-                lớp, giường và ga trải giường thoải mái, máy pha cà phê, bếp lò để nấu ăn, vòi sen đi bộ tuyệt vời và
-                kết nối internet wifi. Xin lưu ý rằng trong khi nhà bếp hoàn hảo để chuẩn bị bữa sáng và bữa trưa/bữa
-                tối nhẹ, nó không được thiết kế để nấu các bữa ăn phức tạp. Nếu bạn có bất kỳ thắc mắc nào khác, vui
-                lòng liên hệ với chúng tôi. Chúng tôi rất mong được chào đón bạn!
-              </Title>
+              <Title level={5}>{hotel?.longDescription}</Title>
             </div>
             {/* Infor */}
             {/* <div className='col-span-1'>

@@ -86,6 +86,7 @@ export default function Payment({ rooms }) {
     const quantity = roomQuantities[room._id] || 0
     return total + room.pricePerNight * quantity
   }, 0)
+  const findRoomByName =(name: string)=> rooms?.find(room => room.name === name );
   return (
     <div className='main'>
       {/* <h3 className='font-bold text-4xl m-10'>Phòng Trống</h3> */}
@@ -123,27 +124,27 @@ export default function Payment({ rooms }) {
               <div className='heading_room_value'>Số Lượng Phòng</div>
             </div>
             <div className='body_room'>
-              {rooms && rooms.length > 0 ? (
-                rooms.map((room) => (
-                  <div key={room.id} className='body_room_total'>
-                    <div className='body_room_value'>
-                      {room.roomNumber} - {room.name}
-                    </div>
-                    <div className='body_room_value'>{room.pricePerNight.toLocaleString()} VND</div>
-                    <Input
-                      suffix={"còn " +countMap.get(room.name) + " phòng"}
-                      placeholder='số lượng phòng'
-                      type='number'
-                      min={1}
-                      max={countMap.get(room.name)}
-                      className='w-[30%] mr-10'
-                      onChange={(e) => handleQuantityChange(room._id, Number(e.target.value))}
-                    />
-                  </div>
-                ))
-              ) : (
-                <p>Không có phòng nào được liệt kê.</p>
-              )}
+          { [...countMap.keys()].map( key => {
+            const targetRoom = findRoomByName(key);
+          return  <div key={key} className='body_room_total'>
+            <div className='body_room_value'>
+             { `${key} (Tối đa ${targetRoom.capacity} Người)`}
+            </div>
+            <div className='body_room_value'>{Number(targetRoom.pricePerNight).toLocaleString()} VND</div>
+            <Input
+              suffix={"còn " +countMap.get(key) + " phòng"}
+              placeholder='số lượng phòng'
+              type='number'
+              min={1}
+              max={countMap.get(key)}
+              className='w-[30%] mr-10'
+              onChange={(e) => handleQuantityChange(targetRoom._id , Number(e.target.value))}
+            />
+          </div>
+
+
+          }) }
+
             </div>
           </div>
           <div className='form_payment'>
