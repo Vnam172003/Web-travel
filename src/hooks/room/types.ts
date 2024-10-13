@@ -1,9 +1,12 @@
-export interface SearchRoomRequest {
-  checkInDate: string
-  checkOutDate: string
-  city: string
-  room: string
-  capacity: string
+
+export interface SearchRoomRequest{
+    checkInDate: string,
+    checkOutDate: string,
+    city: string,
+    room: string,
+    capacity: string,
+    limit: number,
+    
 }
 export interface CreateOrderBooking {
   totalGuests: number
@@ -12,3 +15,4 @@ export interface CreateOrderBooking {
   checkOutDate: string
   paymentMethod: string
 }
+

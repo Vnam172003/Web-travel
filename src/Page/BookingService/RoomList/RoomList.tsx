@@ -1,96 +1,107 @@
-import { Card, Col, Row, Typography, Pagination, Select, Spin } from 'antd'
-import { StarFilled, HeartOutlined, HeartFilled } from '@ant-design/icons'
-import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { useSearchRoom } from '../../../hooks/room/useSearchRoom'
+import React from 'react'
+import { Card, Col, Row, Typography, Tag, Button } from 'antd'
+import { motion } from 'framer-motion'
+import { Room } from '../../../hooks/room/useSearchRoom'
 import LoadingElement from '../../../Components/LoadingElement'
-const { Title, Text } = Typography
+import { SearchRoomRequest } from '../../../hooks/room/types'
+import { Link } from 'react-router-dom'
+const { Title } = Typography
 
-// Dữ liệu mẫu cho danh sách phòng
-
-const RoomList = () => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [favoriteRooms, setFavoriteRooms] = useState<number[]>([])
-  const pageSize = 4 // Số lượng phòng hiển thị trên mỗi trang
-  const location = useLocation()
-
-  const { data, isLoading } = useSearchRoom(location?.state)
-  const resultFind = data?.data.data
-
-  // Xử lý nút yêu thích
-  const toggleFavorite = (roomId: number) => {
-    setFavoriteRooms((prevFavorites) =>
-      prevFavorites.includes(roomId) ? prevFavorites.filter((id) => id !== roomId) : [...prevFavorites, roomId]
-    )
-  }
-  const renderContent = () => {
+interface Props {
+  rooms: Room[]
+  total: number
+  isLoading: boolean
+  searchParams: SearchRoomRequest
+  onLoadMore: () => void
+}
+const RoomList = ({ rooms, total, isLoading, searchParams, onLoadMore }: Props) => {
+  const renderRoomCard = (room: Room) => {
+    const { hotel, name, amenities, pricePerNight } = room
+    const numOfNights = new Date(searchParams.checkOutDate).getDate() - new Date(searchParams.checkInDate).getDate()
+    const discountedPrice = pricePerNight * numOfNights
     return (
-      <div className='p-4'>
-        <Title level={3}>
-          BTravel: đã tìm thấy <span className='result_find'>{resultFind?.length}</span> kết quả
-        </Title>
-        <div>
-          <Select className='w-[50%]' defaultValue={1}>
-            <option value={1}>Giá: Thấp đến Cao</option>
-            <option value={2}>Giá: Cao đến Thấp</option>
-          </Select>
+      <Col span={24} key={room._id}>
+        <Card
+          hoverable
+          className='room-card shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 mt-5'
+        >
+          <Link
+            to={`/hotelDetails/${room.hotel._id}?checkInDate=${searchParams.checkInDate}&checkOutDate=${searchParams.checkOutDate}&capacity=${searchParams.capacity}`}
+            className='block'
+          >   <div className='p-4 flex justify-between'>
+          <img alt={hotel.name} src={hotel.images[0]} className='w-[40%] h-48 object-cover' />
+
+          <div className='flex flex-col'>
+            <p className='text-blue-500 text-xl'>{hotel.name}</p>
+            <div className='flex gap-1 text-blue-600 text-xs'>
+              {hotel.amenities.slice(0, 2).map((amenity) => (
+                <Tag color='green' key={amenity}>
+                  {amenity}
+                </Tag>
+              ))}
+            </div>
+            <div className='mt-3 bg-slate-200 rounded-md p-2'>
+              <p className='text-sm font-medium'>{name}</p>
+              {amenities.slice(0, 3).map((amenity) => (
+                <Tag key={amenity}>{amenity}</Tag>
+              ))}
+            </div>
+          </div>
+
+          <div className='flex flex-col justify-between gap-1'>
+            <div className='flex justify-center gap-2'>
+              <div className='flex flex-col'>
+                <span className='font-bold'>Tốt</span>
+                <span className='text-[#595959] text-xs font-medium'>90 đánh giá</span>
+              </div>
+              <div className='bg-blue-900 text-white h-10 w-10 flex items-center justify-center rounded-md'>
+                {hotel.rating}
+              </div>
+            </div>
+            <div className='text-right'>
+              <p>
+                {numOfNights} đêm, {searchParams.capacity} người
+              </p>
+              <p className='text-sm line-through'>
+                VND {pricePerNight * numOfNights - pricePerNight * numOfNights * 0.25}
+              </p>
+              <p className='text-xl'>VND {discountedPrice.toLocaleString()}</p>
+            </div>
+            <Button>Xem phòng</Button>
+          </div>
         </div>
-        <Row gutter={[16, 16]}>
-          {resultFind?.map((room) => (
-            <Col span={24} key={room.id}>
-              <Card
-                hoverable
-                className='room-card shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 mt-5'
-              >
-                <Link
-                  to={`/hotelDetails/${room.hotel._id}?checkInDate=${location.state.checkInDate}&checkOutDate=${location.state.checkOutDate}&capacity=${location.state.capacity}`}
-                  className='block'
-                >
-                  <img alt={room.hotel.name} src={room.images} className='w-full h-48 object-cover' />
-                </Link>
-                <div className='p-4 flex justify-between'>
-                  <Card.Meta
-                    title={<span className='text-xl font-semibold'>{room.hotel.name}</span>}
-                    description={
-                      <div className='mt-2'>
-                        {/* Margin top for spacing */}
-                        <Text strong className='text-lg text-gray-800'>{`$${room.pricePerNight} / đêm`}</Text>
-                        <div className='flex items-center mt-1'>
-                          {Array.from({ length: 5 }, (_, index) => (
-                            <StarFilled
-                              key={index}
-                              style={{ color: index < room.rating ? '#fadb14' : '#e9e9e9', fontSize: '18px' }}
-                            />
-                          ))}
-                        </div>
-                        <Text type='secondary' className='text-sm text-gray-600 mt-1'>
-                          {room.description}
-                        </Text>
-                      </div>
-                    }
-                  />
-                  <div className='favorite-icon' onClick={() => toggleFavorite(room.id)}>
-                    {favoriteRooms.includes(room.id) ? (
-                      <HeartFilled className='text-red-500 text-2xl' />
-                    ) : (
-                      <HeartOutlined className='text-2xl' />
-                    )}
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-        <Pagination
-          className='flex justify-center '
-          current={currentPage}
-          pageSize={pageSize}
-          onChange={(page) => setCurrentPage(page)}
-          style={{ marginTop: '20px', textAlign: 'center' }}
-        />
-      </div>
+
+          </Link>
+       
+        </Card>
+      </Col>
     )
   }
+
+  const renderContent = () => (
+    <div className='p-4'>
+      <Title level={3}>
+        BTravel: đã tìm thấy <span className='result_find'>{rooms.length}</span> kết quả
+      </Title>
+
+      <Row className='overflow-y-scroll max-h-[600px]' gutter={[16, 16]}>
+        {rooms.map(renderRoomCard)}
+
+        {total > searchParams.limit && (
+          <motion.button
+            onClick={onLoadMore}
+            type='button'
+            className='w-full bg-primary text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary/90 transition'
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Tải thêm
+          </motion.button>
+        )}
+      </Row>
+    </div>
+  )
+
   return isLoading ? <LoadingElement /> : renderContent()
 }
 
