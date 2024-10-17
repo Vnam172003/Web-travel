@@ -4,13 +4,78 @@ import useProvince from '../../hooks/province/useProvince'
 import { SearchRoomRequest } from '../../hooks/room/types'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
+const vietnamProvinces = [
+  { name: "Thành phố Hà Nội", codename: "thanh_pho_ha_noi" },
+  { name: "Thành phố Hồ Chí Minh", codename: "thanh_pho_ho_chi_minh" },
+  { name: "Thành phố Hải Phòng", codename: "thanh_pho_hai_phong" },
+  { name: "Thành phố Đà Nẵng", codename: "thanh_pho_da_nang" },
+  { name: "Thành phố Cần Thơ", codename: "thanh_pho_can_tho" },
+  { name: "Thành phố Huế", codename: "thanh_pho_hue" },
+  { name: "Tỉnh Bắc Giang", codename: "tinh_bac_giang" },
+  { name: "Tỉnh Bắc Kạn", codename: "tinh_bac_kan" },
+  { name: "Tỉnh Bạc Liêu", codename: "tinh_bac_lieu" },
+  { name: "Tỉnh Bắc Ninh", codename: "tinh_bac_ninh" },
+  { name: "Tỉnh Bà Rịa - Vũng Tàu", codename: "tinh_ba_ria_vung_tau" },
+  { name: "Tỉnh Bến Tre", codename: "tinh_ben_tre" },
+  { name: "Tỉnh Bình Dương", codename: "tinh_binh_duong" },
+  { name: "Tỉnh Bình Định", codename: "tinh_binh_dinh" },
+  { name: "Tỉnh Bình Phước", codename: "tinh_binh_phuoc" },
+  { name: "Tỉnh Bình Thuận", codename: "tinh_binh_thuan" },
+  { name: "Tỉnh Cà Mau", codename: "tinh_ca_mau" },
+  { name: "Tỉnh Cao Bằng", codename: "tinh_cao_bang" },
+  { name: "Tỉnh Đắk Lắk", codename: "tinh_dak_lak" },
+  { name: "Tỉnh Đắk Nông", codename: "tinh_dak_nong" },
+  { name: "Tỉnh Điện Biên", codename: "tinh_dien_bien" },
+  { name: "Tỉnh Đồng Nai", codename: "tinh_dong_nai" },
+  { name: "Tỉnh Đồng Tháp", codename: "tinh_dong_thap" },
+  { name: "Tỉnh Gia Lai", codename: "tinh_gia_lai" },
+  { name: "Tỉnh Hà Giang", codename: "tinh_ha_giang" },
+  { name: "Tỉnh Hà Nam", codename: "tinh_ha_nam" },
+  { name: "Tỉnh Hà Tĩnh", codename: "tinh_ha_tinh" },
+  { name: "Tỉnh Hải Dương", codename: "tinh_hai_duong" },
+  { name: "Tỉnh Hậu Giang", codename: "tinh_hau_giang" },
+  { name: "Tỉnh Hòa Bình", codename: "tinh_hoa_binh" },
+  { name: "Tỉnh Hưng Yên", codename: "tinh_hung_yen" },
+  { name: "Tỉnh Khánh Hòa", codename: "tinh_khanh_hoa" },
+  { name: "Tỉnh Kiên Giang", codename: "tinh_kien_giang" },
+  { name: "Tỉnh Kon Tum", codename: "tinh_kon_tum" },
+  { name: "Tỉnh Lai Châu", codename: "tinh_lai_chau" },
+  { name: "Tỉnh Lâm Đồng", codename: "tinh_lam_dong" },
+  { name: "Tỉnh Lạng Sơn", codename: "tinh_lang_son" },
+  { name: "Tỉnh Lào Cai", codename: "tinh_lao_cai" },
+  { name: "Tỉnh Long An", codename: "tinh_long_an" },
+  { name: "Tỉnh Nam Định", codename: "tinh_nam_dinh" },
+  { name: "Tỉnh Nghệ An", codename: "tinh_nghe_an" },
+  { name: "Tỉnh Ninh Bình", codename: "tinh_ninh_binh" },
+  { name: "Tỉnh Ninh Thuận", codename: "tinh_ninh_thuan" },
+  { name: "Tỉnh Phú Thọ", codename: "tinh_phu_tho" },
+  { name: "Tỉnh Phú Yên", codename: "tinh_phu_yen" },
+  { name: "Tỉnh Quảng Bình", codename: "tinh_quang_binh" },
+  { name: "Tỉnh Quảng Nam", codename: "tinh_quang_nam" },
+  { name: "Tỉnh Quảng Ngãi", codename: "tinh_quang_ngai" },
+  { name: "Tỉnh Quảng Ninh", codename: "tinh_quang_ninh" },
+  { name: "Tỉnh Quảng Trị", codename: "tinh_quang_tri" },
+  { name: "Tỉnh Sóc Trăng", codename: "tinh_soc_trang" },
+  { name: "Tỉnh Sơn La", codename: "tinh_son_la" },
+  { name: "Tỉnh Tây Ninh", codename: "tinh_tay_ninh" },
+  { name: "Tỉnh Thái Bình", codename: "tinh_thai_binh" },
+  { name: "Tỉnh Thái Nguyên", codename: "tinh_thai_nguyen" },
+  { name: "Tỉnh Thanh Hóa", codename: "tinh_thanh_hoa" },
+  { name: "Tỉnh Thừa Thiên Huế", codename: "tinh_thua_thien_hue" },
+  { name: "Tỉnh Tiền Giang", codename: "tinh_tien_giang" },
+  { name: "Tỉnh Trà Vinh", codename: "tinh_tra_vinh" },
+  { name: "Tỉnh Tuyên Quang", codename: "tinh_tuyen_quang" },
+  { name: "Tỉnh Vĩnh Long", codename: "tinh_vinh_long" },
+  { name: "Tỉnh Vĩnh Phúc", codename: "tinh_vinh_phuc" },
+  { name: "Tỉnh Yên Bái", codename: "tinh_yen_bai" }
+];
 
 const FormSearch = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
 
-  const { data, isLoading } = useProvince()
-  const provinces = data?.data
+  // const { data, isLoading } = useProvince()
+  const provinces = vietnamProvinces;
   const cityOptions = provinces?.map((province) => {
     return {
       label: province.name,
@@ -39,7 +104,7 @@ const FormSearch = () => {
         <div className='mb-4'>
           <span className='text-gray-700 mb-1 block capitalize'>Thành phố</span>
           <Form.Item name='city' rules={[{ required: true, message: 'Vui lòng nhập thành phố!' }]}>
-            <Select placeholder='Chọn thành phố' loading={isLoading} options={cityOptions} />
+            <Select placeholder='Chọn thành phố' options={cityOptions} />
           </Form.Item>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
