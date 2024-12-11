@@ -17,6 +17,7 @@ import Success from '../Page/Payment/Success'
 import Introduce from '../Page/Introduce'
 import BookingHistory from '../Page/History'
 import SaveBooking from '../Page/SaveBooking'
+import MapBtravel from '../Page/MapBTravel'
 
 const RouterElement = () => {
   return (
@@ -35,8 +36,9 @@ const RouterElement = () => {
         <Route path='/payment' element={<Payment />}></Route>
         <Route path='/history' element={<BookingHistory />}></Route>
         <Route path='/save' element={<SaveBooking />}></Route>
-
         <Route path='/success' element={<Success />}></Route>
+        <Route path='/map' element={<MapBtravel />}></Route>
+
         <Route path='/introduce' element={<Introduce />}></Route>
       </Route>
     </Routes>

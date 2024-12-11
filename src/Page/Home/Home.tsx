@@ -7,6 +7,7 @@ import { images } from '../../Components/Image/ImageDestinaton'
 import { Typography } from 'antd'
 
 import CustomCarousel from '../../Components/Carousel/CustomCarousel'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   const { Title, Text } = Typography
@@ -54,8 +55,10 @@ const Home = () => {
   const Destination = () => {
     return (
       <section className='py-16 container mx-auto'>
-        <Title level={3}>Các địa điểm thịnh hành</Title>
-        <div className='grid grid-rows-2 gap-8 mt-5'>
+        <Title level={3} className='mx-10'>
+          Các địa điểm thịnh hành
+        </Title>
+        <div className='grid grid-rows-2 gap-8 mt-5 mx-10'>
           {/* Top Section: 2 images in one row */}
           <div className='grid grid-cols-2 gap-8'>
             {images.slice(0, 2).map((image, index) => (
@@ -75,7 +78,7 @@ const Home = () => {
                 />
                 {/* Overlay with hover effect */}
                 <motion.div
-                  className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300'
+                  className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center  hover:opacity-100 transition-opacity duration-300'
                   whileHover={{ opacity: 1 }}
                 >
                   <h3 className='text-white text-xl font-semibold'>{image.name}</h3>
@@ -137,6 +140,21 @@ const Home = () => {
   }
   return (
     <div>
+      <div className='fixed z-50 flex items-end justify-center left-1/2 bottom-5 transform -translate-x-1/2'>
+        <Link
+          to={'/map'}
+          className='flex gap-2 cursor-pointer bg-black text-white px-3 py-2 rounded-full shadow-lg hover:bg-black/85 hover:scale-105'
+        >
+          <h2 className='text-lg '>Hiện bản đồ</h2>
+          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='size-5 mt-1'>
+            <path
+              fillRule='evenodd'
+              d='M8.161 2.58a1.875 1.875 0 0 1 1.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0 1 21.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 0 1-1.676 0l-4.994-2.497a.375.375 0 0 0-.336 0l-3.868 1.935A1.875 1.875 0 0 1 2.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437ZM9 6a.75.75 0 0 1 .75.75V15a.75.75 0 0 1-1.5 0V6.75A.75.75 0 0 1 9 6Zm6.75 3a.75.75 0 0 0-1.5 0v8.25a.75.75 0 0 0 1.5 0V9Z'
+              clipRule='evenodd'
+            />
+          </svg>
+        </Link>
+      </div>
       <motion.div
         style={{ scaleX: scrollYProgress }}
         className='fixed top-0 left-0 h-2 w-full bg-gradient-to-br from-purple-500 to-pink-500 z-50 origin-left'

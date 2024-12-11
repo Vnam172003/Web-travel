@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 const Introduce = () => {
   return (
     <div className='grid grid-cols-2 container mx-auto my-7'>
-      {/* Existing content */}
+      {/* Phần giới thiệu */}
       <motion.div
         className='flex flex-col items-center justify-center'
         initial={{ opacity: 0, y: -20 }}
@@ -12,29 +12,25 @@ const Introduce = () => {
       >
         <h1 className='text-4xl font-bold mb-4'>Khám Phá Đà Nẵng với Công Nghệ AR</h1>
         <p className='text-lg mb-8 text-center'>Xu Hướng Công Nghệ Thực Tế Ảo Dành Cho Lĩnh Vực Du Lịch - Bảo Tàng</p>
-        <a
-          href='https://vr360.com.vn/projects/danang-virtual-tourists/#tongquan_danang_1'
-          target='_blank'
-          rel='noopener noreferrer' // Bảo mật khi mở liên kết mới
-          className='bg-black text-white py-5 px-4 rounded-lg hover:bg-black/65'
-        >
-          Bắt Đầu Hành Trình Của Bạn
-        </a>
       </motion.div>
+
+      {/* Nhúng iframe */}
       <motion.div
         className='flex justify-center'
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <img
-          src='https://i.pinimg.com/736x/c9/eb/0a/c9eb0a95bde5a729503a589beb80c774.jpg'
-          alt='AR Tour'
-          className='mb-8 rounded-lg shadow-lg'
-        />
+        <iframe
+          src='https://vr360.com.vn/projects/danang-virtual-tourists/#tongquan_danang_1'
+          width='100%'
+          height='500'
+          className='rounded-lg shadow-lg'
+          style={{ border: 'none' }}
+          title='AR Tour'
+          loading='lazy'
+        ></iframe>
       </motion.div>
-
-      {/* New content for benefits with reduced text */}
     </div>
   )
 }

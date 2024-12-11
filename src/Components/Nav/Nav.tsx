@@ -9,9 +9,9 @@ const Nav: React.FC = () => {
       <Link to={'/introduce'} className={` px-5 py-2 cursor-pointer `}>
         Giới thiệu
       </Link>
-      <Link to={'/hotel'} className={` px-5 py-2 cursor-pointer `}>
+      {/* <Link to={'/hotel'} className={` px-5 py-2 cursor-pointer `}>
         Phân loại phòng
-      </Link>
+      </Link> */}
     </div>
   )
 }

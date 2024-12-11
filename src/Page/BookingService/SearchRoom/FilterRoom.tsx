@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Flex, Form, Select, Typography, Slider, Button, Checkbox } from 'antd';
+import { Flex, Form, Select, Typography, Slider, Button, Checkbox } from 'antd'
 
-const { Title } = Typography;
-const { Option } = Select;
+const { Title } = Typography
+const { Option } = Select
 
 interface Props {
-  handleChange: (field: string, value: any) => void;
-  handleReset: () => void;
-  filters: any;
+  handleChange: (field: string, value: any) => void
+  handleReset: () => void
+  filters: any
 }
 
 const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
   return (
     <div className='border rounded-lg flex-grow'>
@@ -19,7 +19,7 @@ const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
         <Flex gap='middle' vertical>
           <div className='mt-4'>
             <Title level={5}>Giá phòng</Title>
-            <Form.Item name="priceRange" initialValue={[1, 2000000]}>
+            <Form.Item name='priceRange' initialValue={[1, 2000000]}>
               <Slider
                 range
                 defaultValue={[1, 2000000]}
@@ -37,7 +37,7 @@ const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
 
           <div className='mt-4'>
             <Title level={5}>Xếp hạng khách sạn</Title>
-            <Form.Item name="rating">
+            <Form.Item name='rating'>
               <Checkbox.Group onChange={(value) => handleChange('rating', value)}>
                 <Checkbox value={1}>1 sao</Checkbox>
                 <Checkbox value={2}>2 sao</Checkbox>
@@ -50,7 +50,7 @@ const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
 
           <div className='mt-4'>
             <Title level={5}>Tiện nghi</Title>
-            <Form.Item name="selectedAmenities">
+            <Form.Item name='selectedAmenities'>
               <Select
                 mode='multiple'
                 placeholder='Chọn tiện nghi'
@@ -70,7 +70,7 @@ const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
 
           <div className='mt-4'>
             <Title level={5}>Loại chỗ ở</Title>
-            <Form.Item name="roomType">
+            <Form.Item name='roomType'>
               <Select
                 placeholder='Chọn loại chỗ ở'
                 className='w-full'
@@ -89,8 +89,8 @@ const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
             type='primary'
             className='mt-4'
             onClick={() => {
-              form.resetFields();
-              handleReset();
+              form.resetFields()
+              handleReset()
             }}
           >
             Làm mới
@@ -98,7 +98,7 @@ const FilterRoom = ({ handleChange, handleReset, filters }: Props) => {
         </Flex>
       </Form>
     </div>
-  );
+  )
 }
 
-export default FilterRoom;
+export default FilterRoom

@@ -28,51 +28,50 @@ const RoomList = ({ rooms, total, isLoading, searchParams, onLoadMore }: Props) 
           <Link
             to={`/hotelDetails/${room.hotel._id}?checkInDate=${searchParams.checkInDate}&checkOutDate=${searchParams.checkOutDate}&capacity=${searchParams.capacity}`}
             className='block'
-          >   <div className='p-4 flex justify-between'>
-          <img alt={hotel.name} src={hotel.images[0]} className='w-[40%] h-48 object-cover' />
+          >
+            <div className='p-4 flex justify-between'>
+              <img alt={hotel.name} src={hotel.images[0]} className='w-[40%] h-48 object-cover' />
 
-          <div className='flex flex-col'>
-            <p className='text-blue-500 text-xl'>{hotel.name}</p>
-            <div className='flex gap-1 text-blue-600 text-xs'>
-              {hotel.amenities.slice(0, 2).map((amenity) => (
-                <Tag color='green' key={amenity}>
-                  {amenity}
-                </Tag>
-              ))}
-            </div>
-            <div className='mt-3 bg-slate-200 rounded-md p-2'>
-              <p className='text-sm font-medium'>{name}</p>
-              {amenities.slice(0, 3).map((amenity) => (
-                <Tag key={amenity}>{amenity}</Tag>
-              ))}
-            </div>
-          </div>
-
-          <div className='flex flex-col justify-between gap-1'>
-            <div className='flex justify-center gap-2'>
               <div className='flex flex-col'>
-                <span className='font-bold'>Tốt</span>
-                <span className='text-[#595959] text-xs font-medium'>90 đánh giá</span>
+                <p className='text-blue-500 text-xl'>{hotel.name}</p>
+                <div className='flex gap-1 text-blue-600 text-xs'>
+                  {hotel.amenities.slice(0, 2).map((amenity) => (
+                    <Tag color='green' key={amenity}>
+                      {amenity}
+                    </Tag>
+                  ))}
+                </div>
+                <div className='mt-3 bg-slate-200 rounded-md p-2'>
+                  <p className='text-sm font-medium'>{name}</p>
+                  {amenities.slice(0, 3).map((amenity) => (
+                    <Tag key={amenity}>{amenity}</Tag>
+                  ))}
+                </div>
               </div>
-              <div className='bg-blue-900 text-white h-10 w-10 flex items-center justify-center rounded-md'>
-                {hotel.rating}
-              </div>
-            </div>
-            <div className='text-right'>
-              <p>
-                {numOfNights} đêm, {searchParams.capacity} người
-              </p>
-              <p className='text-sm line-through'>
-                VND { ( (pricePerNight * numOfNights) + (pricePerNight * numOfNights * 0.25) ).toLocaleString()}
-              </p>
-              <p className='text-xl'>VND {discountedPrice.toLocaleString()}</p>
-            </div>
-            <Button>Xem phòng</Button>
-          </div>
-        </div>
 
+              <div className='flex flex-col justify-between gap-1'>
+                <div className='flex justify-center gap-2'>
+                  <div className='flex flex-col'>
+                    <span className='font-bold'>Tốt</span>
+                    <span className='text-[#595959] text-xs font-medium'>90 đánh giá</span>
+                  </div>
+                  <div className='bg-blue-900 text-white h-10 w-10 flex items-center justify-center rounded-md'>
+                    {hotel.rating}
+                  </div>
+                </div>
+                <div className='text-right'>
+                  <p>
+                    {numOfNights} đêm, {searchParams.capacity} người
+                  </p>
+                  <p className='text-sm line-through'>
+                    VND {(pricePerNight * numOfNights + pricePerNight * numOfNights * 0.25).toLocaleString()}
+                  </p>
+                  <p className='text-xl'>VND {discountedPrice.toLocaleString()}</p>
+                </div>
+                <Button>Xem phòng</Button>
+              </div>
+            </div>
           </Link>
-       
         </Card>
       </Col>
     )
